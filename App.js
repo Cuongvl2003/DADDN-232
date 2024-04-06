@@ -24,7 +24,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='AddDevice'
+        initialRouteName='Welcome'
       >
         <Stack.Screen
           name="Welcome"
