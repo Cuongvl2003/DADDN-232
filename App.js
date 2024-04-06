@@ -14,6 +14,7 @@ const MyDrawer = () => {
     <Drawer.Navigator initialRouteName="Home" 
     screenOptions={{headerShown: false}} >
       <Drawer.Screen name="Home" component={Home} />
+      <Drawer.Screen name="AddDevice" component={AddDevice} />
     </Drawer.Navigator>
   );
 }
@@ -46,7 +47,13 @@ export default function App() {
             headerShown: false
           }}
         />
-
+        <Stack.Screen
+          name="MyDrawer"
+          component={MyDrawer}
+          options={{
+            headerShown: false
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

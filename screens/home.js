@@ -76,7 +76,7 @@ const Home = ({ navigation }) => {
                                 </Text>
                             </View>
                             <View style={{
-                                width: 60,
+                                width: 100,
                                 height: 60,
                                 alignItems: 'center',
                             }}>
@@ -156,7 +156,7 @@ const Home = ({ navigation }) => {
                                 fontSize: 18,
                                 top: 10,
                             }}>
-                                BEDROOM     Devide: 6
+                                BEDROOM         Devide: 6
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={{
@@ -188,7 +188,7 @@ const Home = ({ navigation }) => {
                                 fontSize: 18,
                                 top: 10,
                             }}>
-                                KITCHEN     Devide: 5
+                                KITCHEN         Devide: 5
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={{
@@ -204,7 +204,7 @@ const Home = ({ navigation }) => {
                                 fontSize: 18,
                                 top: 10,
                             }}>
-                                GARDEN      Devide: 3
+                                GARDEN          Devide: 3
                             </Text>
                         </TouchableOpacity>
                         <Image

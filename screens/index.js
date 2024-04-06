@@ -8,6 +8,6 @@ export {
     Login,
     Welcome,
     Signup,
-    AddDevice
+    AddDevice,
     Home,
 }
