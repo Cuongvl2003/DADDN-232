@@ -14,6 +14,7 @@ const MyDrawer = () => {
     <Drawer.Navigator initialRouteName="Home" 
     screenOptions={{headerShown: false}} >
       <Drawer.Screen name="Home" component={Home} />
+      <Drawer.Screen name="AddDevice" component={AddDevice} />
     </Drawer.Navigator>
   );
 }
@@ -23,7 +24,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='AddDevice'
+        initialRouteName='Welcome'
       >
         <Stack.Screen
           name="Welcome"
@@ -42,6 +43,20 @@ export default function App() {
         <Stack.Screen
           name="Signup"
           component={Signup}
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="MyDrawer"
+          component={MyDrawer}
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="AddDevice"
+          component={AddDevice}
           options={{
             headerShown: false
           }}
