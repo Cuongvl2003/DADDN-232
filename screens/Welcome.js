@@ -11,76 +11,25 @@ const Welcome = ({ navigation }) => {
             style={{
                 flex: 1
             }}
-            colors={[COLORS.secondary, COLORS.primary]}
+            colors={[COLORS.white, COLORS.primary]}
         >
             <View style={{ flex: 1 }}>
                 <View>
                     <Image
-                        source={require("../assets/hero1.jpg")}
+                        source={require("../assets/smart-home-icon-2.png")}
                         style={{
-                            height: 100,
-                            width: 100,
+                            height: 250,
+                            width: 250,
                             borderRadius: 20,
-                            position: "absolute",
+                            position: "center",
                             top: 10,
                             transform: [
-                                { translateX: 20 },
+                                { translateX: 70 },
                                 { translateY: 50 },
-                                { rotate: "-15deg" }
                             ]
                         }}
                     />
 
-                    <Image
-                        source={require("../assets/hero3.jpg")}
-                        style={{
-                            height: 100,
-                            width: 100,
-                            borderRadius: 20,
-                            position: "absolute",
-                            top: -30,
-                            left: 100,
-                            transform: [
-                                { translateX: 50 },
-                                { translateY: 50 },
-                                { rotate: "-5deg" }
-                            ]
-                        }}
-                    />
-
-                    <Image
-                        source={require("../assets/hero3.jpg")}
-                        style={{
-                            width: 100,
-                            height: 100,
-                            borderRadius: 20,
-                            position: "absolute",
-                            top: 130,
-                            left: -50,
-                            transform: [
-                                { translateX: 50 },
-                                { translateY: 50 },
-                                { rotate: "15deg" }
-                            ]
-                        }}
-                    />
-
-                    <Image
-                        source={require("../assets/hero2.jpg")}
-                        style={{
-                            height: 200,
-                            width: 200,
-                            borderRadius: 20,
-                            position: "absolute",
-                            top: 110,
-                            left: 100,
-                            transform: [
-                                { translateX: 50 },
-                                { translateY: 50 },
-                                { rotate: "-15deg" }
-                            ]
-                        }}
-                    />
                 </View>
 
                 {/* content  */}
@@ -107,11 +56,11 @@ const Welcome = ({ navigation }) => {
                             fontSize: 16,
                             color: COLORS.white,
                             marginVertical: 4
-                        }}>Connect with each other with chatting</Text>
+                        }}>Connect with your own home</Text>
                         <Text style={{
                             fontSize: 16,
                             color: COLORS.white,
-                        }}>Calling, Enjoy Safe and private texting</Text>
+                        }}>Control everything on your smartphone</Text>
                     </View>
 
                     <Button

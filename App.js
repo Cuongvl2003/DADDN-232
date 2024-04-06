@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import { Login, Signup, Welcome } from "./screens";
+import { AddDevice, Login, Signup, Welcome } from "./screens";
 
 const Stack = createNativeStackNavigator();
 
@@ -9,7 +9,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='Welcome'
+        initialRouteName='AddDevice'
       >
         <Stack.Screen
           name="Welcome"
@@ -28,6 +28,13 @@ export default function App() {
         <Stack.Screen
           name="Signup"
           component={Signup}
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="AddDevice"
+          component={AddDevice}
           options={{
             headerShown: false
           }}
