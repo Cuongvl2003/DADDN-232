@@ -21,7 +21,7 @@ const Welcome = ({ navigation }) => {
                             height: 250,
                             width: 250,
                             borderRadius: 20,
-                            position: "center",
+                            position: "relative",
                             top: 10,
                             transform: [
                                 { translateX: 70 },
