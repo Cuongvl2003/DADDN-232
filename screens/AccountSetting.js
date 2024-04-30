@@ -8,9 +8,23 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialCommunityIcons, SimpleLineIcons } from '@expo/vector-icons';
 import Checkbox from "expo-checkbox"
 import Button from '../components/Button';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
-const AddDevice = ({ navigation }) => {
+const AccountSetting = ({ navigation }) => {
+
+    // State variable to hold the password 
+    const [password, setPassword] = useState(''); 
+  
+    // State variable to track password visibility 
+    const [showPassword, setShowPassword] = useState(false); 
+  
+    // Function to toggle the password visibility state 
+    const toggleShowPassword = () => { 
+        setShowPassword(!showPassword); 
+    };
+
+
     return(
         <LinearGradient
             style={{flex: 1}}
@@ -34,9 +48,10 @@ const AddDevice = ({ navigation }) => {
                         <Text style={{
                             fontSize:20,
                             marginTop:15,
-                        color:"white"}}> Add New Device</Text>
-                </View>
+                        color:"white"}}> Account Setting</Text>
+            </View>
             
+            <ScrollView>
             <View style={styles.inputsContainer}>
                 <View style={{ marginBottom: 12 }}>
                     <Text style={{
@@ -46,7 +61,7 @@ const AddDevice = ({ navigation }) => {
                         justifyContent: "center",
                         color: COLORS.darkgrey,
                         marginTop:20
-                    }}>Device name</Text>
+                    }}>First Name</Text>
 
                     <View style={{
                         width: "100%",
@@ -74,7 +89,7 @@ const AddDevice = ({ navigation }) => {
                         fontWeight: 400,
                         color: COLORS.darkgrey,
                         marginVertical: 8
-                    }}>Device type</Text>
+                    }}>Last Name</Text>
 
                     <View style={{
                         width: "100%",
@@ -102,7 +117,7 @@ const AddDevice = ({ navigation }) => {
                         fontWeight: 400,
                         color:COLORS.darkgrey,
                         marginVertical: 8
-                    }}>Device brand</Text>
+                    }}>Email</Text>
 
                     <View style={{
                         width: "100%",
@@ -116,7 +131,7 @@ const AddDevice = ({ navigation }) => {
                     }}>
                         <TextInput
                             placeholderTextColor={COLORS.black}
-                            keyboardType='ascii-capable'
+                            keyboardType='email-address'
                             style={{
                                 width: "100%"
                             }}
@@ -128,71 +143,63 @@ const AddDevice = ({ navigation }) => {
                     <Text style={{
                         fontSize: 16,
                         fontWeight: 400,
-                        marginVertical: 8,
                         color:COLORS.darkgrey,
-                    }}>Add to</Text>
+                        marginVertical: 8
+                    }}>Phone Number</Text>
+
                     <View style={{
-                    flexDirection: 'row',
-                    justifyContent: 'center'
+                        width: "100%",
+                        height: 48,
+                        borderColor: COLORS.grey,
+                        borderWidth: 1,
+                        borderRadius: 8,
+                        alignItems: "center",
+                        justifyContent: "center",
+                        paddingLeft: 22
                     }}>
-
-                    <TouchableOpacity
-                        onPress={() => console.log("Pressed")}
-                        style={{
-                            flex: 1,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            flexDirection: 'row',
-                            height: 52,
-                            borderWidth: 1,
-                            borderColor: COLORS.grey,
-                            marginRight: 4,
-                            borderRadius: 10
-                        }}
-                    >
-                        <Ionicons name="bed-outline" size={32} color="black" />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        onPress={() => console.log("Pressed")}
-                        style={{
-                            flex: 1,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            flexDirection: 'row',
-                            height: 52,
-                            borderWidth: 1,
-                            borderColor: COLORS.grey,
-                            marginRight: 4,
-                            borderRadius: 10
-                        }}
-                    >
-                        <FontAwesome5 name="bath" size={24} color="black" />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        onPress={() => console.log("Pressed")}
-                        style={{
-                            flex: 1,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            flexDirection: 'row',
-                            height: 52,
-                            borderWidth: 1,
-                            borderColor: COLORS.grey,
-                            marginRight: 4,
-                            borderRadius: 10
-                        }}
-                    >
-                        <MaterialCommunityIcons name="sofa-outline" size={24} color="black" />
-                    </TouchableOpacity>
+                        <TextInput
+                            placeholderTextColor={COLORS.black}
+                            keyboardType='name-phone-pad'
+                            style={{
+                                width: "100%"
+                            }}
+                        />
                     </View>
+                </View>
+                
+                <View >
+                    <Text style={{
+                        fontSize: 16,
+                        fontWeight: 400,
+                        color:COLORS.darkgrey,
+                        marginVertical: 8
+                    }}>Phone Number</Text>
+                <View style={styles.container}> 
+                
+                <TextInput 
+  
+                    // Set secureTextEntry prop to hide  
+                    //password when showPassword is false 
+                    secureTextEntry={!showPassword} 
+                    value={password} 
+                    onChangeText={setPassword} 
+                    style={styles.input} 
+                    placeholder="Enter Password"
+                    placeholderTextColor="#aaa"
+                /> 
+                <MaterialCommunityIcons 
+                    name={showPassword ? 'eye-off' : 'eye'} 
+                    size={24} 
+                    color="#aaa"
+                    style={styles.icon} 
+                    onPress={toggleShowPassword} 
+                /> 
+                </View>
+            </View>
 
-                    
-                </View> 
-
+             
                 <Button
-                    title="Add Device"
+                    title="Save change"
                     filled
                     style={{
                         marginTop: 18,
@@ -203,15 +210,14 @@ const AddDevice = ({ navigation }) => {
                         borderColor: COLORS.color3,
                         backgroundColor: COLORS.color3
                     }}
-                />              
-
+                />            
             </View>
-            
+            </ScrollView>
             </SafeAreaView>
         </LinearGradient>
     )
 }
-export default AddDevice
+export default AccountSetting
 
 const styles=StyleSheet.create({
     container:{
@@ -234,5 +240,29 @@ const styles=StyleSheet.create({
         marginLeft: 25,
         marginRight: 10,
         paddingHorizontal: 20,
-    }
+
+    },
+    container: { 
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        backgroundColor: COLORS.white, 
+        width: "100%",
+        height: 48,
+        borderColor: COLORS.grey,
+        borderWidth: 1,
+        borderRadius: 8, 
+        paddingHorizontal: 14, 
+        marginBottom:12
+    },
+    icon: { 
+        marginLeft: 10, 
+    },
+    input: { 
+        flex: 1, 
+        color: '#333', 
+        paddingVertical: 10, 
+        paddingRight: 10, 
+        fontSize: 16, 
+    },
 });

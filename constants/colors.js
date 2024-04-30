@@ -4,6 +4,7 @@ const COLORS = {
     primary: "#0099ff",
     secondary: "#39B68D",
     grey: "#CCCCCC",
+    darkgrey: "#808080",
     CornflowerBlue: "#6495ED",
     LightSlateGrey: "#778899",
     DodgerBlue: "#1E90FF",

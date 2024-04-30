@@ -118,7 +118,9 @@ const Home = ({ navigation }) => {
                                 alignItems: 'center',
                                 marginVertical: 5,
                             }}>
-                                <TouchableOpacity style={{
+                                <TouchableOpacity 
+                                    onPress={()=>navigation.navigate("Room")}
+                                    style={{
                                     backgroundColor: COLORS.white,
                                     width: '20%',
                                     height: 40,
