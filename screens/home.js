@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native'
+import { View, Text, Image, Pressable, ScrollView, Dimensions } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from "react-native-safe-area-context";
 import COLORS from '../constants/colors';
@@ -11,7 +11,9 @@ const Home = ({ navigation }) => {
     return (
         <LinearGradient
             style={{flex: 1}}
-            colors={[COLORS.DodgerBlue, COLORS.LightSlateGrey]}
+            colors={[COLORS.color2, COLORS.color1]}
+            start={{ x: -1, y: 0 }}
+            end={{ x: 1, y: 0 }}
             >
             <SafeAreaView style={{ flex: 1 }}>
                 <View>
@@ -21,23 +23,22 @@ const Home = ({ navigation }) => {
                     }}>
                         <Pressable 
                             onPress={()=>navigation.openDrawer()}>
-                            <SimpleLineIcons name="menu" size={'250%'} color="black" 
+                            <SimpleLineIcons name="menu" size={40} color="black" 
                                 style={{
-                                    marginTop: '50%',
-                                    marginLeft: '-70%',
+                                    marginTop: 5,
+                                    marginLeft: -50,
                                 }}/>
-                        </TouchableOpacity>
-                        <MaterialCommunityIcons name="face-man" size={'350%'} color="black"
+                        </Pressable>
+                        <MaterialCommunityIcons name="face-man" size={50} color="black"
                             style={{
-                                marginTop: '5%',
-                                marginRight: '-10%',
+                                marginTop: 1,
+                                marginRight: -50,
                             }}/>
                     </View>
                     <View>
                         <Text style={{
-                            fontSize: '200%',
+                            fontSize: 40,
                             fontWeight: 'bold',
-                            marginVertical: '5%',
                             color: COLORS.black,
                             marginLeft: '10%',
                         }}>
@@ -46,53 +47,50 @@ const Home = ({ navigation }) => {
                         <View style={{
                             flexDirection: 'row',
                             justifyContent: 'space-around',
-                            marginBottom: '5%',
+                            marginTop: '2%',
                         }}>
                             <View style={{
-                                width: '30%',
-                                height: '60%',
+                                position: 'relative',
+                                width: '33%',
                                 alignItems: 'center',
                             }}>
-                                <MaterialCommunityIcons name="weather-cloudy" size={'250%'} color="black" />
+                                <MaterialCommunityIcons name="weather-cloudy" size={40} color="black" />
                                 <Text style={{
                                     fontWeight: 'bold',
-                                    color:COLORS.white,
                                 }}>
                                     CLOUDY
                                 </Text>
                             </View>
                             <View style={{
-                                width: '30%',
-                                height: '60%',
+                                position: 'relative',
+                                width: '33%',
                                 alignItems: 'center',
                             }}>
                                 <Text style={{
                                     fontWeight: 'bold',
-                                    fontSize: '165%',
+                                    fontSize: 30,
                                 }}>
                                     30℃
                                 </Text>
                                 <Text style={{
                                     fontWeight: 'bold',
-                                    marginTop: '5%',
                                 }}>
                                     TEMPERATURE
                                 </Text>
                             </View>
                             <View style={{
-                                width: '30%',
-                                height: '60%',
+                                position: 'relative',
+                                width: '33%',
                                 alignItems: 'center',
                             }}>
                                 <Text style={{
                                     fontWeight: 'bold',
-                                    fontSize: '165%',
+                                    fontSize: 30,
                                 }}>
                                     56%
                                 </Text>
                                 <Text style={{
                                     fontWeight: 'bold',
-                                    marginTop: '5%',
                                 }}>
                                     HUMIDITY
                                 </Text>
@@ -108,89 +106,94 @@ const Home = ({ navigation }) => {
                                 flexDirection: 'row',
                                 justifyContent: 'space-around',
                                 alignItems: 'center',
-                                marginVertical: '5%',
+                                marginVertical: 30,
                             }}>
-                                <TouchableOpacity style={{
-                                    backgroundColor: COLORS.Aquamarine,
-                                    width: '15%',
-                                    height: '120%',
-                                    borderRadius: 50,
-                                    marginLeft: '1%',
-                                    marginRight: '1%',
-                                }}>
+                                <Pressable onPress={()=>navigation.navigate('Room')}
+                                    style={{
+                                        backgroundColor: COLORS.Aquamarine,
+                                        width: 180,
+                                        height: 75,
+                                        borderRadius: 50,
+                                        marginLeft: 30,
+                                        marginRight: 30,
+                                    }}>
                                     <Text style={{
                                         textAlign: 'center',
                                         fontWeight: 'bold',
-                                        fontSize: '120%',
-                                        marginTop: '5%',
+                                        fontSize: 20,
+                                        marginTop: 10,
                                     }}>
                                         LIVING ROOM                     Devide: 5
                                     </Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity style={{
-                                    backgroundColor:COLORS.Aquamarine,
-                                    width: '15%',
-                                    height: '120%',
-                                    borderRadius: 50,
-                                    marginLeft: '1%',
-                                    marginRight: '1%',
-                                }}>
+                                </Pressable>
+                                <Pressable onPress={()=>navigation.openDrawer()}
+                                    style={{
+                                        backgroundColor:COLORS.Aquamarine,
+                                        width: 180,
+                                        height: 75,
+                                        borderRadius: 50,
+                                        marginLeft: 30,
+                                        marginRight: 30,
+                                    }}>
                                     <Text style={{
                                         textAlign: 'center',
                                         fontWeight: 'bold',
-                                        fontSize: '120%',
-                                        marginTop: '5%',
+                                        fontSize: 20,
+                                        marginTop: 10,
                                     }}>
                                         BEDROOM                         Devide: 6
                                     </Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity style={{
-                                    backgroundColor:COLORS.Aquamarine,
-                                    width: '15%',
-                                    height: '120%',
-                                    borderRadius: 50,
-                                    marginLeft: '1%',
-                                    marginRight: '1%',
-                                }}>
+                                </Pressable>
+                                <Pressable onPress={()=>navigation.openDrawer()}
+                                    style={{
+                                        backgroundColor:COLORS.Aquamarine,
+                                        width: 180,
+                                        height: 75,
+                                        borderRadius: 50,
+                                        marginLeft: 30,
+                                        marginRight: 30,
+                                    }}>
                                     <Text style={{
                                         textAlign: 'center',
                                         fontWeight: 'bold',
-                                        fontSize: '120%',
-                                        marginTop: '5%',
+                                        fontSize: 20,
+                                        marginTop: 10,
                                     }}>
                                         BATHROOM                        Devide: 4
                                     </Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity style={{
-                                    backgroundColor:COLORS.Aquamarine,
-                                    width: '15%',
-                                    height: '120%',
-                                    borderRadius: 50,
-                                    marginLeft: '1%',
-                                    marginRight: '1%',
-                                }}>
+                                </Pressable>
+                                <Pressable onPress={()=>navigation.openDrawer()}
+                                    style={{
+                                        backgroundColor:COLORS.Aquamarine,
+                                        width: 180,
+                                        height: 75,
+                                        borderRadius: 50,
+                                        marginLeft: 30,
+                                        marginRight: 30,
+                                    }}>
                                     <Text style={{
                                         textAlign: 'center',
                                         fontWeight: 'bold',
-                                        fontSize: '120%',
-                                        marginTop: '5%',
+                                        fontSize: 20,
+                                        marginTop: 10,
                                     }}>
                                         KITCHEN                         Devide: 5
                                     </Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity style={{
-                                    backgroundColor:COLORS.Aquamarine,
-                                    width: '15%',
-                                    height: '120%',
-                                    borderRadius: 50,
-                                    marginLeft: '1%',
-                                    marginRight: '1%',
-                                }}>
+                                </Pressable>
+                                <Pressable onPress={()=>navigation.openDrawer()}
+                                    style={{
+                                        backgroundColor:COLORS.Aquamarine,
+                                        width: 180,
+                                        height: 75,
+                                        borderRadius: 50,
+                                        marginLeft: 30,
+                                        marginRight: 30,
+                                    }}>
                                     <Text style={{
                                         textAlign: 'center',
                                         fontWeight: 'bold',
-                                        fontSize: '120%',
-                                        marginTop: '5%',
+                                        fontSize: 20,
+                                        marginTop: 10,
                                     }}>
                                         GARDEN                          Devide: 3
                                     </Text>
@@ -202,35 +205,32 @@ const Home = ({ navigation }) => {
                         flexDirection: 'column',
                         justifyContent: 'space-around',
                         alignItems: 'center',
-                        }}>
+                        flex: 1,
+                    }}>
                         <Image
                             source={require('../assets/ELECTRICITY.png')}
                             style={{
-                                width: '70%',
-                                height: '175%',
-                                marginBottom: '10%',
-                                marginTop: '10%',
+                                width: 300,
+                                height: 350,
                             }}
                             resizeMode='contain'
                         />
                         <Image
                             source={require('../assets/HOME.png')}
                             style={{
-                                width: '70%',
-                                height: '175%',
-                                marginBottom: '10%',
-                                marginTop: '10%',
+                                width: 300,
+                                height: 350,
                             }}
                             resizeMode='contain'
-                        /> */}
-
-
+                        />
                         <Text style={{
                             textAlign: 'center',
                             fontWeight: 'bold',
                             fontSize: 20,
                             color:COLORS.white
-                        }}>ELECTRICITY</Text>
+                        }}>
+                            ELECTRICITY
+                        </Text>
                         <LineChart
                             data={{
                             labels: ['0:00', '4:00', '8:00', '12:00', '14:00', '16:00'],
@@ -264,22 +264,22 @@ const Home = ({ navigation }) => {
                             fontWeight: 'bold',
                             fontSize: 20,
                             color:COLORS.white
-                        }}>TEMPERATURE</Text>
+                        }}>
+                            TEMPERATURE
+                        </Text>
                         <LineChart
                             data={{
                                 labels: ['0:00', '4:00', '8:00', '12:00'],
-                                datasets: [
-                                {
-                                data: [
-                                    Math.random() * 100,
-                                    Math.random() * 100,
-                                    Math.random() * 100,
-                                    Math.random() * 100,
-                                    Math.random() * 100,
-                                    Math.random() * 100,
-                                ],
-                                },
-                                ],
+                                datasets: [{
+                                    data: [
+                                        Math.random() * 100,
+                                        Math.random() * 100,
+                                        Math.random() * 100,
+                                        Math.random() * 100,
+                                        Math.random() * 100,
+                                        Math.random() * 100,
+                                    ]
+                                }]
                             }}
                             width={Dimensions.get('window').width - 16} // from react-native
                             height={220}
@@ -302,7 +302,6 @@ const Home = ({ navigation }) => {
                                 marginRight:20
                             }}
                         />
-
                     </View>
                 </ScrollView>
             </SafeAreaView>
@@ -311,20 +310,3 @@ const Home = ({ navigation }) => {
 }
 
 export default Home
-
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: 'white',
-      justifyContent: 'center',
-      alignItems: 'center',
-      textAlign: 'center',
-      padding: 10,
-    },
-    header: {
-      textAlign: 'center',
-      fontSize: 18,
-      padding: 16,
-      marginTop: 16,
-    },
-  });
