@@ -191,19 +191,20 @@ const AddDevice = ({ navigation }) => {
                     
                 </View> 
 
-                <Button
-                    title="Add Device"
-                    filled
-                    style={{
-                        marginTop: 18,
-                        marginBottom: 20,
-                        marginLeft:20,
-                        marginRight:20,
-                        borderRadius:12,
-                        borderColor: COLORS.color3,
-                        backgroundColor: COLORS.color3
-                    }}
-                />              
+                
+                    <LinearGradient
+                        colors={["#00c6fb", "#3381ff"]}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 0 }}
+                        style={styles.gradient}
+                    >
+                        <TouchableOpacity
+                            style={styles.button1}
+                            onPress={() => setContent("watering")}
+                        >
+                            <Text style={styles.buttonText1}>Add device</Text>
+                        </TouchableOpacity>
+                    </LinearGradient>             
 
             </View>
             
@@ -234,5 +235,22 @@ const styles=StyleSheet.create({
         marginLeft: 25,
         marginRight: 10,
         paddingHorizontal: 20,
+    },
+    button1: {
+        paddingBottom: 16,
+        paddingVertical: 10,
+        borderColor: COLORS.primary,
+        borderRadius: 18,
+        alignItems: 'center',
+        justifyContent: 'center'
+        
+    },
+    buttonText1:{
+        fontSize:20,
+        color: COLORS.white,
+    },
+    gradient:{
+        borderRadius:18,
+        marginBottom:30
     }
 });
