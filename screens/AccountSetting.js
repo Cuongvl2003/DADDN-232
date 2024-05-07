@@ -173,7 +173,7 @@ const AccountSetting = ({ navigation }) => {
                         fontWeight: 400,
                         color:COLORS.darkgrey,
                         marginVertical: 8
-                    }}>Phone Number</Text>
+                    }}>Password</Text>
                 <View style={styles.container}> 
                 
                 <TextInput 
@@ -198,19 +198,19 @@ const AccountSetting = ({ navigation }) => {
             </View>
 
              
-                <Button
-                    title="Save change"
-                    filled
-                    style={{
-                        marginTop: 18,
-                        marginBottom: 20,
-                        marginLeft:20,
-                        marginRight:20,
-                        borderRadius:12,
-                        borderColor: COLORS.color3,
-                        backgroundColor: COLORS.color3
-                    }}
-                />            
+                <LinearGradient
+                    colors={["#00c6fb", "#3381ff"]}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                    style={styles.gradient}
+                >
+                    <TouchableOpacity
+                        style={styles.button1}
+                        onPress={() => setContent("watering")}
+                    >
+                        <Text style={styles.buttonText1}>Add device</Text>
+                    </TouchableOpacity>
+                </LinearGradient>            
             </View>
             </ScrollView>
             </SafeAreaView>
@@ -265,4 +265,22 @@ const styles=StyleSheet.create({
         paddingRight: 10, 
         fontSize: 16, 
     },
+    button1: {
+        paddingBottom: 16,
+        paddingVertical: 10,
+        borderColor: COLORS.primary,
+        borderRadius: 18,
+        alignItems: 'center',
+        justifyContent: 'center'
+        
+    },
+    buttonText1:{
+        fontSize:20,
+        color: COLORS.white,
+    },
+    gradient:{
+        borderRadius:18,
+        marginBottom:30,
+        marginTop:20
+    }
 });
