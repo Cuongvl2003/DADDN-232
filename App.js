@@ -25,7 +25,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="BedRoom"
+        initialRouteName="Welcome"
       >
         <Stack.Screen
           name="Welcome"

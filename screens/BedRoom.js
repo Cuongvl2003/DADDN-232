@@ -34,24 +34,12 @@ const BedRoom = ({ navigation }) => {
             setTemperatureColor('cold');
         }
     };
-
-    const scrollBarStyle = {
-        width: '100%',
-        height: 6,
-        backgroundColor: '#52057b',
-        borderRadius: 8,
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-    };
     
     const scrollBarIndicatorStyle = {
-        width: temperature * 2,
-        height: 6,
+        width: temperature * 8,
+        height: 20,
         backgroundColor: '#bc6ff1',
         borderRadius: 8,
-        position: 'absolute',
-        bottom: 0,
         left: (16 - (temperature - 16) * 2) / 2,
     };
 
@@ -97,8 +85,8 @@ const BedRoom = ({ navigation }) => {
                         <View style={{
                             flexDirection: 'row',
                             justifyContent: 'space-around',
-                            marginTop: '2%',
-                            marginBottom: '5%',
+                            marginTop: 20,
+                            marginBottom: 30,
                         }}>
                             <View style={{
                                 position: 'relative',
@@ -182,7 +170,7 @@ const BedRoom = ({ navigation }) => {
                             </Text>
                         </View>
                         <View style={{
-                        alignItems: 'center',
+                            alignItems: 'center',
                         }}>
                             <Text style={{
                                 fontSize: 24,
@@ -206,31 +194,29 @@ const BedRoom = ({ navigation }) => {
                         </View>
                     </View>
                     <View style={{
-                                justifyContent: 'center',
                                 alignItems: 'center',
                             }}>
                         <Text style={{ 
                             fontSize: 24,
                             borderRadius: 10,
                             fontWeight: 'bold',
+                            marginTop: 20,
                         }}>
                             Air Conditioner
                         </Text>
                         <Text style={{ 
-                            fontSize: 24,
+                            fontSize: 20,
                             padding: 10,
                             borderRadius: 10,
                             fontWeight: 'bold',
+                            marginBottom: 15,
                             }}>
                             {temperature}°C
                         </Text>
                         <View style={{ 
-                            height: 32,
-                            marginTop: 10,
+                            height: 20,
                         }}>
-                            <View style={scrollBarStyle}>
-                                <View style={scrollBarIndicatorStyle} />
-                            </View>
+                            <View style={scrollBarIndicatorStyle} />
                         </View>
                     </View>
                     <View style={{
