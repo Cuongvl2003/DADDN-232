@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import { AddDevice, Login, Signup, Welcome, Home, Room, AccountSetting } from "./screens";
+import { AddDevice, Login, Signup, Welcome, Home, Room, AccountSetting, BedRoom } from "./screens";
 
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
@@ -25,7 +25,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Welcome"
+        initialRouteName="BedRoom"
       >
         <Stack.Screen
           name="Welcome"
@@ -58,6 +58,13 @@ export default function App() {
         <Stack.Screen
           name="Room"
           component={Room}
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="BedRoom"
+          component={BedRoom}
           options={{
             headerShown: false
           }}

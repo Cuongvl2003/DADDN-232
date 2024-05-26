@@ -126,7 +126,7 @@ const Home = ({ navigation }) => {
                                         LIVING ROOM                     Devide: 5
                                     </Text>
                                 </Pressable>
-                                <Pressable onPress={()=>navigation.openDrawer()}
+                                <Pressable onPress={()=>navigation.navigate('BedRoom')}
                                     style={{
                                         backgroundColor:COLORS.Aquamarine,
                                         width: 180,
@@ -210,16 +210,16 @@ const Home = ({ navigation }) => {
                         <Image
                             source={require('../assets/ELECTRICITY.png')}
                             style={{
-                                width: 300,
                                 height: 350,
+                                marginTop: 30,
                             }}
                             resizeMode='contain'
                         />
                         <Image
                             source={require('../assets/HOME.png')}
                             style={{
-                                width: 300,
                                 height: 350,
+                                marginTop: 30,
                             }}
                             resizeMode='contain'
                         />
@@ -227,6 +227,7 @@ const Home = ({ navigation }) => {
                             textAlign: 'center',
                             fontWeight: 'bold',
                             fontSize: 20,
+                            marginTop: 20,
                             color:COLORS.white
                         }}>
                             ELECTRICITY
@@ -240,7 +241,7 @@ const Home = ({ navigation }) => {
                                     },],
                             }}
                             width={Dimensions.get('window').width - 16}
-                            height={220}
+                            height={350}
                             chartConfig={{
                                 backgroundColor: COLORS.white,
                                 backgroundGradientFrom: '#eff3ff',
@@ -255,7 +256,8 @@ const Home = ({ navigation }) => {
                                 marginVertical: 8,
                                 borderRadius: 16,
                                 marginLeft:20,
-                                marginRight:20
+                                marginRight:20,
+                                marginTop: 30,
                             }}
                         />
 
@@ -263,6 +265,7 @@ const Home = ({ navigation }) => {
                             textAlign: 'center',
                             fontWeight: 'bold',
                             fontSize: 20,
+                            marginTop: 20,
                             color:COLORS.white
                         }}>
                             TEMPERATURE
@@ -282,7 +285,7 @@ const Home = ({ navigation }) => {
                                 }]
                             }}
                             width={Dimensions.get('window').width - 16} // from react-native
-                            height={220}
+                            height={350}
                             yAxisLabel={'℃'}
                             chartConfig={{
                                 backgroundColor: '#1cc910',
@@ -299,7 +302,8 @@ const Home = ({ navigation }) => {
                                 marginVertical: 8,
                                 borderRadius: 16,
                                 marginLeft:20,
-                                marginRight:20
+                                marginRight:20,
+                                marginTop: 30,
                             }}
                         />
                     </View>
