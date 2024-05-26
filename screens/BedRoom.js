@@ -4,13 +4,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import COLORS from '../constants/colors';
 import { LinearGradient } from "expo-linear-gradient";
 import { MaterialCommunityIcons, SimpleLineIcons, Ionicons} from '@expo/vector-icons';
-import { LineChart } from 'react-native-chart-kit';
+import Slider from '@react-native-community/slider';
 
 const BedRoom = ({ navigation }) => {
     const [isLightOn1, setIsLightOn1] = useState(false);
     const [isLightOn2, setIsLightOn2] = useState(false);
 
-    const [temperature, setTemperature] = useState(20);
+    const [speed, setSpeed] = useState(0);
 
     const handleSwitchChange1 = (value) => {
         setIsLightOn1(value);
@@ -19,28 +19,18 @@ const BedRoom = ({ navigation }) => {
         setIsLightOn2(value);
     };
 
-    const increaseTemperature = () => {
-        const newTemperature = temperature + 1;
-        setTemperature(newTemperature);
-        if (newTemperature >= 25) {
-            setTemperatureColor('hot');
+    const increase = () => {
+        if (speed < 100){
+            const newSpeed = speed + 1;
+            setSpeed(newSpeed);
         }
     };
     
-    const decreaseTemperature = () => {
-        const newTemperature = temperature - 1;
-        setTemperature(newTemperature);
-        if (newTemperature < 18) {
-            setTemperatureColor('cold');
+    const decrease = () => {
+        if (speed > 0){
+            const newSpeed = speed - 1;
+            setSpeed(newSpeed);
         }
-    };
-    
-    const scrollBarIndicatorStyle = {
-        width: temperature * 8,
-        height: 20,
-        backgroundColor: '#bc6ff1',
-        borderRadius: 8,
-        left: (16 - (temperature - 16) * 2) / 2,
     };
 
     return (
@@ -198,34 +188,32 @@ const BedRoom = ({ navigation }) => {
                             }}>
                         <Text style={{ 
                             fontSize: 24,
-                            borderRadius: 10,
-                            fontWeight: 'bold',
-                            marginTop: 20,
-                        }}>
-                            Air Conditioner
-                        </Text>
-                        <Text style={{ 
-                            fontSize: 20,
                             padding: 10,
                             borderRadius: 10,
                             fontWeight: 'bold',
                             marginBottom: 15,
                             }}>
-                            {temperature}°C
+                            Speed: {speed}
                         </Text>
-                        <View style={{ 
-                            height: 20,
-                        }}>
-                            <View style={scrollBarIndicatorStyle} />
-                        </View>
+                        <Slider
+                            style = {{ width: 300, height: 20}}
+                            value={speed}
+                            onValueChange={(value) => setSpeed(value)}
+                            minimumValue={0}
+                            maximumValue={100}
+                            step={1}
+                            minimumTrackTintColor="#FFD700"
+                            maximumTrackTintColor="#DC143C"
+                            thumbTintColor="#F0F8FF"
+                        />
                     </View>
                     <View style={{
                                 flexDirection: 'row',
                                 justifyContent: 'space-between',
                                 padding: 50,
                             }}>
-                        <Button title="-" onPress={decreaseTemperature} />
-                        <Button title="+" onPress={increaseTemperature} />
+                        <Button title="-" onPress={decrease} />
+                        <Button title="+" onPress={increase} />
                     </View>
                 </View>
             </SafeAreaView>
