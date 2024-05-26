@@ -5,6 +5,7 @@ import AddDevice from "./AddDevice";
 import Home from "./home";
 import Room from "./Room"
 import AccountSetting from "./AccountSetting";
+import DeviceSetting from "./DeviceSetting";
 
 export {
     Login,
@@ -13,5 +14,6 @@ export {
     AddDevice,
     Home,
     Room,
-    AccountSetting
+    AccountSetting,
+    DeviceSetting
 }

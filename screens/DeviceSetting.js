@@ -11,7 +11,16 @@ import Button from '../components/Button';
 import { SelectList } from 'react-native-dropdown-select-list'
 
 
-const AddDevice = ({ navigation }) => {
+const DeviceSetting = ({ navigation }) => {
+    const [selected, setSelected] = React.useState("");
+  
+    const data = [
+        {key:'1',value:'Living Room'},
+        {key:'2',value:'Bedroom'},
+        {key:'3',value:'Kitchen'},
+        {key:'4',value:'Bathroom'},
+    ];
+
     return(
         <LinearGradient
             style={{flex: 1}}
@@ -25,17 +34,17 @@ const AddDevice = ({ navigation }) => {
                         justifyContent: 'center',
                     }}>
                         <TouchableOpacity 
-                            onPress={()=>navigation.openDrawer()}>
-                            <SimpleLineIcons name="menu" size={30} color="white" 
-                                style={{
-                                    marginTop: 10,
-                                    marginLeft:-80,
-                                }}/>
+                        onPress={()=>navigation.navigate("Room")}>
+                        <Ionicons name="caret-back" size={30} color="white" 
+                            style={{
+                                marginTop: 10,
+                                marginLeft:-80,
+                            }}/>
                         </TouchableOpacity>
                         <Text style={{
                             fontSize:20,
                             marginTop:15,
-                        color:"white"}}> Add New Device</Text>
+                        color:"white"}}>Device Setting</Text>
                 </View>
             
             <View style={styles.inputsContainer}>
@@ -188,7 +197,8 @@ const AddDevice = ({ navigation }) => {
                         <MaterialCommunityIcons name="sofa-outline" size={24} color="black" />
                     </TouchableOpacity>
                     </View> */}
-                    <SelectList                    
+
+                    <SelectList 
                         setSelected={setSelected} 
                         data={data}   
                         search={false} 
@@ -201,11 +211,14 @@ const AddDevice = ({ navigation }) => {
                         dropdownItemStyles={{marginBottom:10}}
                         dropdownTextStyles={{borderBottomColor: COLORS.grey}}
                     />
-
                     
                 </View> 
-
                 
+
+                <View style={{
+                    flexDirection:'row',
+                    justifyContent: 'space-around',
+                }}>
                     <LinearGradient
                         colors={["#00c6fb", "#3381ff"]}
                         start={{ x: 0, y: 0 }}
@@ -214,11 +227,25 @@ const AddDevice = ({ navigation }) => {
                     >
                         <TouchableOpacity
                             style={styles.button1}
-                            onPress={() => setContent("watering")}
+                            // onPress={() => setContent("watering")}
                         >
-                            <Text style={styles.buttonText1}>Add device</Text>
+                            <Text style={styles.buttonText1}>Delete</Text>
                         </TouchableOpacity>
-                    </LinearGradient>             
+                    </LinearGradient>
+                    <LinearGradient
+                        colors={["#00c6fb", "#3381ff"]}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 0 }}
+                        style={styles.gradient}
+                    >
+                        <TouchableOpacity
+                            style={styles.button1}
+                            // onPress={() => setContent("watering")}
+                        >
+                            <Text style={styles.buttonText1}>Save</Text>
+                        </TouchableOpacity>
+                    </LinearGradient>    
+                </View>          
 
             </View>
             
@@ -226,7 +253,7 @@ const AddDevice = ({ navigation }) => {
         </LinearGradient>
     )
 }
-export default AddDevice
+export default DeviceSetting
 
 const styles=StyleSheet.create({
     container:{
@@ -256,7 +283,8 @@ const styles=StyleSheet.create({
         borderColor: COLORS.primary,
         borderRadius: 18,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        width:100
         
     },
     buttonText1:{
@@ -265,6 +293,6 @@ const styles=StyleSheet.create({
     },
     gradient:{
         borderRadius:18,
-        marginBottom:30
+        marginBottom:30,
     }
 });

@@ -143,11 +143,11 @@ const Room = ({ navigation }) => {
                     <Text>   </Text>
 
                     <View style={styles.container2}>
-                    <Text style={{color:'white',fontSize:20, marginLeft:50}}>Light List:</Text>
+                    <Text style={{color:'white',fontSize:20, marginLeft:30}}>Light List:</Text>
                     <Text> </Text>
                     <ScrollView>
                         <View style={styles.container1}> 
-                        <MaterialCommunityIcons name="lightbulb-on" size={24} color="#005ce6" />
+                            <MaterialCommunityIcons name="lightbulb-on" size={24} color="#005ce6" />
                             <Text style={{color:'black',fontSize:20}}>light1</Text>
                             <Switch
                                 trackColor={{false: '#c0bfc0', true: '#c0bfc0'}}
@@ -156,11 +156,16 @@ const Room = ({ navigation }) => {
                                 onValueChange={toggleSwitch}
                                 value={isEnabled}
                             />
+                            <TouchableOpacity 
+                                onPress={()=>navigation.navigate("DeviceSetting")}>
+                                <Ionicons name="settings-outline" size={30} color="black" />
+                            </TouchableOpacity>
+                            
                         </View>
                         <Text> </Text>
                         <View style={styles.container1}> 
-                        <MaterialCommunityIcons name="lightbulb-on" size={24} color="#005ce6" />
-                            <Text style={{color:'black',fontSize:20}}>light1</Text>
+                            <MaterialCommunityIcons name="lightbulb-on" size={24} color="#005ce6" />
+                            <Text style={{color:'black',fontSize:20}}>light2</Text>
                             <Switch
                                 trackColor={{false: '#c0bfc0', true: '#c0bfc0'}}
                                 thumbColor={isEnabled ? '#005ce6' : '#99989a'}
@@ -168,42 +173,10 @@ const Room = ({ navigation }) => {
                                 onValueChange={toggleSwitch}
                                 value={isEnabled}
                             />
-                        </View>
-                        <Text> </Text>
-                        <View style={styles.container1}> 
-                        <MaterialCommunityIcons name="lightbulb-on" size={24} color="#005ce6" />
-                            <Text style={{color:'black',fontSize:20}}>light1</Text>
-                            <Switch
-                                trackColor={{false: '#c0bfc0', true: '#c0bfc0'}}
-                                thumbColor={isEnabled ? '#005ce6' : '#99989a'}
-                                ios_backgroundColor='#4dff88'
-                                onValueChange={toggleSwitch}
-                                value={isEnabled}
-                            />
-                        </View>
-                        <Text> </Text>
-                        <View style={styles.container1}> 
-                        <MaterialCommunityIcons name="lightbulb-on" size={24} color="#005ce6" />
-                            <Text style={{color:'black',fontSize:20}}>light1</Text>
-                            <Switch
-                                trackColor={{false: '#c0bfc0', true: '#c0bfc0'}}
-                                thumbColor={isEnabled ? '#005ce6' : '#99989a'}
-                                ios_backgroundColor='#4dff88'
-                                onValueChange={toggleSwitch}
-                                value={isEnabled}
-                            />
-                        </View>
-                        <Text> </Text>
-                        <View style={styles.container1}> 
-                        <MaterialCommunityIcons name="lightbulb-on" size={24} color="#005ce6" />
-                            <Text style={{color:'black',fontSize:20}}>light1</Text>
-                            <Switch
-                                trackColor={{false: '#c0bfc0', true: '#c0bfc0'}}
-                                thumbColor={isEnabled ? '#005ce6' : '#99989a'}
-                                ios_backgroundColor='#4dff88'
-                                onValueChange={toggleSwitch}
-                                value={isEnabled}
-                            />
+                            <TouchableOpacity 
+                                onPress={()=>navigation.navigate("DeviceSetting")}>
+                                <Ionicons name="settings-outline" size={30} color="black" />
+                            </TouchableOpacity>
                         </View>
                         <Text> </Text>
                         
@@ -215,7 +188,7 @@ const Room = ({ navigation }) => {
                     <Text> </Text>
                     <ScrollView>
                         <View style={styles.container1}> 
-                        <MaterialCommunityIcons name="lightbulb-on" size={24} color="#005ce6" />
+                            <MaterialCommunityIcons name="lightbulb-on" size={24} color="#005ce6" />
                             <Text style={{color:'black',fontSize:20}}>fan1</Text>
                             <Switch
                                 trackColor={{false: '#c0bfc0', true: '#c0bfc0'}}
@@ -224,10 +197,14 @@ const Room = ({ navigation }) => {
                                 onValueChange={toggleSwitch}
                                 value={isEnabled}
                             />
+                            <TouchableOpacity 
+                                onPress={()=>navigation.navigate("DeviceSetting")}>
+                                <Ionicons name="settings-outline" size={30} color="black" />
+                            </TouchableOpacity>
                         </View>
                         <Text> </Text>
                         <View style={styles.container1}> 
-                        <MaterialCommunityIcons name="lightbulb-on" size={24} color="#005ce6" />
+                            <MaterialCommunityIcons name="lightbulb-on" size={24} color="#005ce6" />
                             <Text style={{color:'black',fontSize:20}}>fan1</Text>
                             <Switch
                                 trackColor={{false: '#c0bfc0', true: '#c0bfc0'}}
@@ -236,44 +213,13 @@ const Room = ({ navigation }) => {
                                 onValueChange={toggleSwitch}
                                 value={isEnabled}
                             />
+                            <TouchableOpacity 
+                                onPress={()=>navigation.navigate("DeviceSetting")}>
+                                <Ionicons name="settings-outline" size={30} color="black" />
+                            </TouchableOpacity>
                         </View>
                         <Text> </Text>
-                        <View style={styles.container1}> 
-                        <MaterialCommunityIcons name="lightbulb-on" size={24} color="#005ce6" />
-                            <Text style={{color:'black',fontSize:20}}>fan1</Text>
-                            <Switch
-                                trackColor={{false: '#c0bfc0', true: '#c0bfc0'}}
-                                thumbColor={isEnabled ? '#005ce6' : '#99989a'}
-                                ios_backgroundColor='#4dff88'
-                                onValueChange={toggleSwitch}
-                                value={isEnabled}
-                            />
-                        </View>
-                        <Text> </Text>
-                        <View style={styles.container1}> 
-                        <MaterialCommunityIcons name="lightbulb-on" size={24} color="#005ce6" />
-                            <Text style={{color:'black',fontSize:20}}>fan1</Text>
-                            <Switch
-                                trackColor={{false: '#c0bfc0', true: '#c0bfc0'}}
-                                thumbColor={isEnabled ? '#005ce6' : '#99989a'}
-                                ios_backgroundColor='#4dff88'
-                                onValueChange={toggleSwitch}
-                                value={isEnabled}
-                            />
-                        </View>
-                        <Text> </Text>
-                        <View style={styles.container1}> 
-                        <MaterialCommunityIcons name="lightbulb-on" size={24} color="#005ce6" />
-                            <Text style={{color:'black',fontSize:20}}>fan1</Text>
-                            <Switch
-                                trackColor={{false: '#c0bfc0', true: '#c0bfc0'}}
-                                thumbColor={isEnabled ? '#005ce6' : '#99989a'}
-                                ios_backgroundColor='#4dff88'
-                                onValueChange={toggleSwitch}
-                                value={isEnabled}
-                            />
-                        </View>
-                        <Text> </Text>
+                        
                         
                     </ScrollView>
                     </View>
@@ -331,8 +277,8 @@ const styles=StyleSheet.create({
         borderRadius:10,
         borderWidth:2,
         padding:5,
-        marginLeft:50,
-        marginRight:50
+        marginLeft:30,
+        marginRight:30
     },
     container2:{
         flex: 1,
