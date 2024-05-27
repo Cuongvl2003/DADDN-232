@@ -7,6 +7,7 @@ import { MaterialCommunityIcons, SimpleLineIcons } from '@expo/vector-icons';
 import { LineChart } from 'react-native-chart-kit';
 import axios from 'axios';
 import { url } from './url';
+import Modal from "react-native-modal";
 
 const Home = ({ navigation }) => {
 
@@ -26,8 +27,22 @@ const Home = ({ navigation }) => {
         { name: 'KITCHEN', devices: 5},
         { name: 'GARDEN', devices: 3},
       ];
-      const UserName='Master';
-      const [noti, setNoti]=useState(0)
+    const UserName='Master';
+    const [notificationsCount, setNotificationsCount] = useState(0);
+    const [showNotificationModal, setShowNotificationModal] = useState(false);
+    let now=new Date().getHours();       
+
+    
+    const handleNotificationPress = () => {
+        setNotificationsCount(0);
+        navigation.navigate("Notification");
+    };
+
+    useEffect(() => {
+        if (notificationsCount > 0) {
+            setShowNotificationModal(true);
+        }
+    }, [notificationsCount]);
 
     return (
         <LinearGradient
