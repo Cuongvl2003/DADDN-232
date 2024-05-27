@@ -1,5 +1,5 @@
 import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet, Dimensions } from 'react-native'
-import React from 'react'
+import React,{useState} from 'react'
 import { SafeAreaView } from "react-native-safe-area-context";
 import COLORS from '../constants/colors';
 import { LinearGradient } from "expo-linear-gradient";
@@ -15,6 +15,8 @@ const Home = ({ navigation }) => {
         { name: 'KITCHEN', devices: 5},
         { name: 'GARDEN', devices: 3},
       ];
+      const UserName='Tung';
+      const [noti, setNoti]=useState(0)
 
     return (
         <LinearGradient
@@ -28,20 +30,24 @@ const Home = ({ navigation }) => {
                     <View style={{
                         flexDirection: 'row',
                         justifyContent: 'space-around',
+                        alignItems:'center',
+                        alignContent:'center',
+                        marginTop: 10
                     }}>
                         <TouchableOpacity 
                             onPress={()=>navigation.openDrawer()}>
                             <SimpleLineIcons name="menu" size={30} color="white" 
                                 style={{
-                                    marginTop: 10,
-                                    marginRight: 20,
+                                    
                                 }}/>
                         </TouchableOpacity>
                         <Text style={{
-                            fontSize:20,
-                            marginTop:15,
-                            marginRight:130,
+                            fontSize:24,
+                            
                         color:"white"}}> Home</Text>
+                        <TouchableOpacity onPress={()=>navigation.navigate("Notification")}>
+                            <MaterialCommunityIcons name="bell" size={32} color="white" />
+                        </TouchableOpacity>
                     </View>
                     <View>
                         <Text style={{
@@ -52,7 +58,7 @@ const Home = ({ navigation }) => {
                             marginLeft: 40,
                             marginTop:20
                         }}>
-                            Hello, Tung!
+                            Hello, {UserName}!
                         </Text>
                         <View style={{
                             flexDirection: 'row',
@@ -144,7 +150,7 @@ const Home = ({ navigation }) => {
                                     <Text style={{
                                         textAlign: 'center',
                                         fontWeight: 'bold',
-                                        fontSize: 11,
+                                        fontSize: 15,
                                         marginTop: 5,
                                     }}>
                                         {room.name}
@@ -155,7 +161,7 @@ const Home = ({ navigation }) => {
                                         fontSize: 11,
                                         marginTop: 5,
                                     }}>
-                                        Devide: {room.devices}
+                                        Device: {room.devices}
                                     </Text>
                                     <Text style={{
                                         textAlign: 'center',
@@ -272,9 +278,9 @@ const Home = ({ navigation }) => {
                         }}>HUMIDITY</Text>
                         <LineChart
                             data={{
-                            labels: ['0:00', '4:00', '8:00', '12:00', '14:00', '16:00'],
+                            labels: ['0:00', '4:00', '8:00', '12:00', '14:00', '16:00','18:00','20:00'],
                             datasets: [{
-                                data: [20, 45, 28, 80, 99, 43],
+                                data: [60,62,70,64,68,55,72,60],
                                 strokeWidth: 2,
                                     },],
                             }}

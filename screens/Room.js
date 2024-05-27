@@ -42,6 +42,7 @@ const Room = ({ navigation }) => {
             setSpeed(newSpeed);
         }
     };
+    let RoomName='living room';
 
     return(
         <LinearGradient
@@ -68,11 +69,11 @@ const Room = ({ navigation }) => {
                             fontSize:20,
                             marginTop:15,
                             justifyContent: "center",
-                        color:"white"}}> Living Room</Text>
+                        color:"white"}}> {RoomName}</Text>
                 </View>
 
                 <View>
-                        <View style={{
+                        {/* <View style={{
                             flexDirection: 'row',
                             justifyContent: 'space-around',
                             marginBottom: 5,
@@ -137,11 +138,11 @@ const Room = ({ navigation }) => {
                                     HUMIDITY
                                 </Text>
                             </View>
-                        </View>
+                        </View> */}
                     </View>
                     
                     <ScrollView>
-                    <View style={styles.container}>
+                    {/* <View style={styles.container}>
                         <Text style={{ fontSize: 60, marginBottom: -20,  color: 'white',}}>{value}</Text>
                         <Text style={{ fontSize: 20, padding: 20, color: 'white'}}>{"Temperature"}</Text>
                         <StatusBar style="auto" />
@@ -154,7 +155,7 @@ const Room = ({ navigation }) => {
                                 <Text style={styles.buttonText}>+</Text>
                             </TouchableOpacity>
                             </View>
-                    </View>
+                    </View> */}
                     <Text>   </Text>
 
                     <View style={styles.container2}>
