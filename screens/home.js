@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet, Dimensions } from 'react-native'
+import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet, Dimensions, Button } from 'react-native'
 import React,{useState, useEffect} from 'react'
 import { SafeAreaView } from "react-native-safe-area-context";
 import COLORS from '../constants/colors';
@@ -7,6 +7,7 @@ import { MaterialCommunityIcons, SimpleLineIcons } from '@expo/vector-icons';
 import { LineChart } from 'react-native-chart-kit';
 import axios from 'axios';
 import { url } from './url';
+import Modal from "react-native-modal";
 
 const Home = ({ navigation }) => {
 
@@ -25,9 +26,21 @@ const Home = ({ navigation }) => {
         { name: 'BATHROOM', devices: 4},
         { name: 'KITCHEN', devices: 5},
         { name: 'GARDEN', devices: 3},
-      ];
-      const UserName='Master';
-      const [noti, setNoti]=useState(0)
+    ];
+    const UserName='Master';
+    const [notificationsCount, setNotificationsCount] = useState(0);
+    const [showNotificationModal, setShowNotificationModal] = useState(false);
+    
+    const handleNotificationPress = () => {
+        setNotificationsCount(0);
+        navigation.navigate("Notification");
+    };
+
+    useEffect(() => {
+        if (notificationsCount > 0) {
+            setShowNotificationModal(true);
+        }
+    }, [notificationsCount]);
 
     return (
         <LinearGradient
@@ -56,9 +69,30 @@ const Home = ({ navigation }) => {
                             fontSize:24,
                             
                         color:"white"}}> Home</Text>
-                        <TouchableOpacity onPress={()=>navigation.navigate("Notification")}>
-                            <MaterialCommunityIcons name="bell" size={32} color="white" />
+                        <TouchableOpacity onPress={handleNotificationPress}>
+                            {notificationsCount ? (
+                                <MaterialCommunityIcons name="bell-alert" size={32} color="#DC143C" />
+                            ) : (
+                                <MaterialCommunityIcons name="bell" size={32} color="white" />
+                            )}
                         </TouchableOpacity>
+                        <Modal isVisible={showNotificationModal}>
+                            <View style={{ 
+                                backgroundColor: 'white',
+                                width: 300,
+                                height: 150,
+                                alignItems: 'center', 
+                                justifyContent: 'center' }}>
+                                <Text style={{
+                                    fontWeight: 'bold',
+                                    fontSize: 25,
+                                    marginBottom: 20,
+                                }}>
+                                    Bạn có {notificationsCount} cảnh báo mới
+                                </Text>
+                                <Button title="Đóng" onPress={() => setShowNotificationModal(false)} />
+                            </View>
+                        </Modal>
                     </View>
                     <View>
                         <Text style={{
