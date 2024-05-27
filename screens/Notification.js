@@ -52,7 +52,7 @@ const Notification = ({ navigation }) => {
                 {data.map((room, index) => (
                                     <TouchableOpacity
                                         key={index}
-                                        onPress={()=>navigation.navigate("Room")}
+                                        
                                         style={{
                                             backgroundColor: COLORS.white,
 

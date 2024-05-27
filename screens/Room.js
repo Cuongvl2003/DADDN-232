@@ -73,89 +73,10 @@ const Room = ({ navigation }) => {
                 </View>
 
                 <View>
-                        {/* <View style={{
-                            flexDirection: 'row',
-                            justifyContent: 'space-around',
-                            marginBottom: 5,
-                        }}>
-                            <View style={{
-                                width: '30%',
-                                height: 60,
-                                alignItems: 'center',
-                            }}>
-                                <Text style={{
-                                    fontWeight: 'bold',
-                                    fontSize:20,
-                                    color:COLORS.white,
-                                }}>
-                                    150KwH
-                                </Text>
-                                <Text style={{
-                                    fontWeight: 'bold',
-                                    marginTop:5,
-                                    color:COLORS.white,
-                                }}>
-                                    CLOUDY
-                                </Text>
-                            </View>
-                            <View style={{
-                                width: '30%',
-                                height: 60,
-                                alignItems: 'center',
-                            }}>
-                                <Text style={{
-                                    fontWeight: 'bold',
-                                    fontSize: 20,
-                                    color:COLORS.white,
-                                }}>
-                                    30℃
-                                </Text>
-                                <Text style={{
-                                    fontWeight: 'bold',
-                                    marginTop: 5,
-                                    color:COLORS.white,
-                                }}>
-                                    TEMPERATURE
-                                </Text>
-                            </View>
-                            <View style={{
-                                width: '30%',
-                                height: 60,
-                                alignItems: 'center',
-                            }}>
-                                <Text style={{
-                                    fontWeight: 'bold',
-                                    fontSize: 20,
-                                    color:COLORS.white,
-                                }}>
-                                    56%
-                                </Text>
-                                <Text style={{
-                                    fontWeight: 'bold',
-                                    marginTop: 5,
-                                    color:COLORS.white,
-                                }}>
-                                    HUMIDITY
-                                </Text>
-                            </View>
-                        </View> */}
+                        
                     </View>
                     
                     <ScrollView>
-                    {/* <View style={styles.container}>
-                        <Text style={{ fontSize: 60, marginBottom: -20,  color: 'white',}}>{value}</Text>
-                        <Text style={{ fontSize: 20, padding: 20, color: 'white'}}>{"Temperature"}</Text>
-                        <StatusBar style="auto" />
-                            <View style={{flexDirection: 'row'}}>
-                            <TouchableOpacity style={styles.circleButton} onPress={decrementValue}>
-                                <Text style={styles.buttonText}>-</Text>
-                            </TouchableOpacity>
-                            <Text>   </Text>
-                            <TouchableOpacity style={styles.circleButton} onPress={incrementValue}>
-                                <Text style={styles.buttonText}>+</Text>
-                            </TouchableOpacity>
-                            </View>
-                    </View> */}
                     <Text>   </Text>
 
                     <View style={styles.container2}>

@@ -45,27 +45,28 @@ const Login = ({ navigation }) => {
             
             else
             {   
-                try {
-                    const data =  await axios.post(`${url}api/login`, 
-                {
-                    userName: uName,
-                    password: uPass
-                }
-                )
-                console.log(data.data);
-                if (data.data) navigation.navigate("MyDrawer")
-                }
-                catch (err) {
-                    Alert.alert('Alert', 'Username or password is wrong! ', [
-                        {
-                          text: 'Cancel',
-                          onPress: () => console.log('Cancel Pressed'),
-                          style: 'cancel',
-                        },
-                        {text: 'OK', onPress: () => console.log('OK Pressed')},
-                      ]);
+                navigation.navigate("MyDrawer")
+                // try {
+                //     const data =  await axios.post(`${url}api/login`, 
+                // {
+                //     userName: uName,
+                //     password: uPass
+                // }
+                // )
+                // console.log(data.data);
+                // if (data.data) navigation.navigate("MyDrawer")
+                // }
+                // catch (err) {
+                //     Alert.alert('Alert', 'Username or password is wrong! ', [
+                //         {
+                //           text: 'Cancel',
+                //           onPress: () => console.log('Cancel Pressed'),
+                //           style: 'cancel',
+                //         },
+                //         {text: 'OK', onPress: () => console.log('OK Pressed')},
+                //       ]);
                 
-                }
+                // }
             }
 
         
