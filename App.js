@@ -17,7 +17,7 @@ const MyDrawer = () => {
       <Drawer.Screen name="Add Device" component={AddDevice} />
       <Drawer.Screen name="Account Setting" component={AccountSetting} />
       
-      <Drawer.Screen name="Sensor" component={Sensor} />
+      <Drawer.Screen name="Sensor Setting" component={Sensor} />
       <Drawer.Screen name="Log out" component={Login} />
     </Drawer.Navigator>
   );

@@ -61,7 +61,7 @@ const AccountSetting = ({ navigation }) => {
                         justifyContent: "center",
                         color: COLORS.darkgrey,
                         marginTop:20
-                    }}>First Name</Text>
+                    }}>Full Name</Text>
 
                     <View style={{
                         width: "100%",
@@ -83,7 +83,7 @@ const AccountSetting = ({ navigation }) => {
                     </View>
                 </View>
 
-                <View style={{ marginBottom: 12 }}>
+                {/* <View style={{ marginBottom: 12 }}>
                     <Text style={{
                         fontSize: 16,
                         fontWeight: 400,
@@ -109,7 +109,7 @@ const AccountSetting = ({ navigation }) => {
                             }}
                         />
                     </View>
-                </View>
+                </View> */}
 
                 <View style={{ marginBottom: 12 }}>
                     <Text style={{
