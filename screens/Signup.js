@@ -1,5 +1,5 @@
-import { View, Text, Image, Pressable, TextInput, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import { View, Text, Image, Pressable, TextInput, TouchableOpacity, ScrollView, Alert } from 'react-native'
+import React, { useState, useEffect } from 'react'
 import { SafeAreaView } from "react-native-safe-area-context";
 import COLORS from '../constants/colors';
 import { Ionicons } from "@expo/vector-icons";
@@ -9,6 +9,76 @@ import Button from '../components/Button';
 const Signup = ({ navigation }) => {
     const [isPasswordShown, setIsPasswordShown] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
+    const [uName,setuName] = useState('');
+    const [uPass,setuPass] = useState('');
+    const [uFullname,setuFullname] = useState('');
+    const [uEmail,setuEmail] = useState('');
+    const [uNum,setuNum] = useState('');
+
+    
+    const handleSignUp = async (e) =>
+        {
+            if (!uName) {
+                Alert.alert('Alert', 'Missing user name', [
+                    {
+                      text: 'Cancel',
+                      onPress: () => console.log('Cancel Pressed'),
+                      style: 'cancel',
+                    },
+                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                  ]);
+            }
+            else
+            if (!uPass) {
+                Alert.alert('Alert', 'Missing password', [
+                    {
+                      text: 'Cancel',
+                      onPress: () => console.log('Cancel Pressed'),
+                      style: 'cancel',
+                    },
+                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                  ]);
+            }
+            else
+            if (!uFullname) {
+                Alert.alert('Alert', 'Missing fullname', [
+                    {
+                      text: 'Cancel',
+                      onPress: () => console.log('Cancel Pressed'),
+                      style: 'cancel',
+                    },
+                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                  ]);
+            }
+            else
+            if (!uEmail) {
+                Alert.alert('Alert', 'Missing Email', [
+                    {
+                      text: 'Cancel',
+                      onPress: () => console.log('Cancel Pressed'),
+                      style: 'cancel',
+                    },
+                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                  ]);
+            }
+            else
+            if (!uNum) {
+                Alert.alert('Alert', 'Missing phone number', [
+                    {
+                      text: 'Cancel',
+                      onPress: () => console.log('Cancel Pressed'),
+                      style: 'cancel',
+                    },
+                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                  ]);
+            }
+            else
+            {
+                navigation.navigate("MyDrawer")
+            }
+        }
+
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
             <View style={{ flex: 1, marginHorizontal: 22 }}>
@@ -28,12 +98,13 @@ const Signup = ({ navigation }) => {
                     }}>Connect with your friend today!</Text>
                 </View>
 
+                <ScrollView style={{}}>
                 <View style={{ marginBottom: 12 }}>
                     <Text style={{
                         fontSize: 16,
                         fontWeight: 400,
                         marginVertical: 8
-                    }}>Email address</Text>
+                    }}>User Name</Text>
 
                     <View style={{
                         width: "100%",
@@ -46,53 +117,13 @@ const Signup = ({ navigation }) => {
                         paddingLeft: 22
                     }}>
                         <TextInput
-                            placeholder='Enter your email address'
+                            placeholder='Enter your user name'
                             placeholderTextColor={COLORS.black}
-                            keyboardType='email-address'
+                            keyboardType='default'
                             style={{
                                 width: "100%"
                             }}
-                        />
-                    </View>
-                </View>
-
-                <View style={{ marginBottom: 12 }}>
-                    <Text style={{
-                        fontSize: 16,
-                        fontWeight: 400,
-                        marginVertical: 8
-                    }}>Mobile Number</Text>
-
-                    <View style={{
-                        width: "100%",
-                        height: 48,
-                        borderColor: COLORS.black,
-                        borderWidth: 1,
-                        borderRadius: 8,
-                        alignItems: "center",
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        paddingLeft: 22
-                    }}>
-                        <TextInput
-                            placeholder='+91'
-                            placeholderTextColor={COLORS.black}
-                            keyboardType='numeric'
-                            style={{
-                                width: "12%",
-                                borderRightWidth: 1,
-                                borderLeftColor: COLORS.grey,
-                                height: "100%"
-                            }}
-                        />
-
-                        <TextInput
-                            placeholder='Enter your phone number'
-                            placeholderTextColor={COLORS.black}
-                            keyboardType='numeric'
-                            style={{
-                                width: "80%"
-                            }}
+                            onChangeText={NewuName=>setuName(NewuName)}
                         />
                     </View>
                 </View>
@@ -121,6 +152,7 @@ const Signup = ({ navigation }) => {
                             style={{
                                 width: "100%"
                             }}
+                            onChangeText={NewuPass=>setuPass(NewuPass)}
                         />
 
                         <TouchableOpacity
@@ -142,7 +174,110 @@ const Signup = ({ navigation }) => {
                     </View>
                 </View>
 
-                <View style={{
+                <View style={{ marginBottom: 12 }}>
+                    <Text style={{
+                        fontSize: 16,
+                        fontWeight: 400,
+                        marginVertical: 8
+                    }}>Fullname</Text>
+
+                    <View style={{
+                        width: "100%",
+                        height: 48,
+                        borderColor: COLORS.black,
+                        borderWidth: 1,
+                        borderRadius: 8,
+                        alignItems: "center",
+                        justifyContent: "center",
+                        paddingLeft: 22
+                    }}>
+                        <TextInput
+                            placeholder='Enter your full name'
+                            placeholderTextColor={COLORS.black}
+                            keyboardType='email-address'
+                            style={{
+                                width: "100%"
+                            }}
+                            onChangeText={NewuFullname=>setuFullname(NewuFullname)}
+                        />
+                    </View>
+                </View>
+
+                <View style={{ marginBottom: 12 }}>
+                    <Text style={{
+                        fontSize: 16,
+                        fontWeight: 400,
+                        marginVertical: 8
+                    }}>Email address</Text>
+
+                    <View style={{
+                        width: "100%",
+                        height: 48,
+                        borderColor: COLORS.black,
+                        borderWidth: 1,
+                        borderRadius: 8,
+                        alignItems: "center",
+                        justifyContent: "center",
+                        paddingLeft: 22
+                    }}>
+                        <TextInput
+                            placeholder='Enter your email address'
+                            placeholderTextColor={COLORS.black}
+                            keyboardType='email-address'
+                            style={{
+                                width: "100%"
+                            }}
+                            onChangeText={NewuEmail=>setuEmail(NewuEmail)}
+                        />
+                    </View>
+                </View>
+
+                <View style={{ marginBottom: 12 }}>
+                    <Text style={{
+                        fontSize: 16,
+                        fontWeight: 400,
+                        marginVertical: 8
+                    }}>Mobile Number</Text>
+
+                    <View style={{
+                        width: "100%",
+                        height: 48,
+                        borderColor: COLORS.black,
+                        borderWidth: 1,
+                        borderRadius: 8,
+                        alignItems: "center",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        paddingLeft: 22
+                    }}>
+                        <TextInput
+                            placeholder='+84'
+                            placeholderTextColor={COLORS.black}
+                            keyboardType='numeric'
+                            style={{
+                                width: "12%",
+                                borderRightWidth: 1,
+                                borderLeftColor: COLORS.grey,
+                                height: "100%"
+                            }}
+                        />
+
+                        <TextInput
+                            placeholder='Enter your phone number'
+                            placeholderTextColor={COLORS.black}
+                            keyboardType='numeric'
+                            style={{
+                                width: "80%"
+                            }}
+                            onChangeText={NewuNum=>setuNum(NewuNum)}
+                        />
+                    </View>
+                </View>
+
+
+                
+
+                {/* <View style={{
                     flexDirection: 'row',
                     marginVertical: 6
                 }}>
@@ -154,95 +289,17 @@ const Signup = ({ navigation }) => {
                     />
 
                     <Text>I aggree to the terms and conditions</Text>
-                </View>
+                </View> */}
 
                 <Button
                     title="Sign Up"
+                    onPress={handleSignUp}
                     filled
                     style={{
                         marginTop: 18,
                         marginBottom: 4,
                     }}
                 />
-
-                <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 20 }}>
-                    <View
-                        style={{
-                            flex: 1,
-                            height: 1,
-                            backgroundColor: COLORS.grey,
-                            marginHorizontal: 10
-                        }}
-                    />
-                    <Text style={{ fontSize: 14 }}>Or Sign up with</Text>
-                    <View
-                        style={{
-                            flex: 1,
-                            height: 1,
-                            backgroundColor: COLORS.grey,
-                            marginHorizontal: 10
-                        }}
-                    />
-                </View>
-
-                <View style={{
-                    flexDirection: 'row',
-                    justifyContent: 'center'
-                }}>
-                    <TouchableOpacity
-                        onPress={() => console.log("Pressed")}
-                        style={{
-                            flex: 1,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            flexDirection: 'row',
-                            height: 52,
-                            borderWidth: 1,
-                            borderColor: COLORS.grey,
-                            marginRight: 4,
-                            borderRadius: 10
-                        }}
-                    >
-                        <Image
-                            source={require("../assets/facebook.png")}
-                            style={{
-                                height: 36,
-                                width: 36,
-                                marginRight: 8
-                            }}
-                            resizeMode='contain'
-                        />
-
-                        <Text>Facebook</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        onPress={() => console.log("Pressed")}
-                        style={{
-                            flex: 1,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            flexDirection: 'row',
-                            height: 52,
-                            borderWidth: 1,
-                            borderColor: COLORS.grey,
-                            marginRight: 4,
-                            borderRadius: 10
-                        }}
-                    >
-                        <Image
-                            source={require("../assets/google.png")}
-                            style={{
-                                height: 36,
-                                width: 36,
-                                marginRight: 8
-                            }}
-                            resizeMode='contain'
-                        />
-
-                        <Text>Google</Text>
-                    </TouchableOpacity>
-                </View>
 
                 <View style={{
                     flexDirection: "row",
@@ -261,6 +318,7 @@ const Signup = ({ navigation }) => {
                         }}>Login</Text>
                     </Pressable>
                 </View>
+                </ScrollView>
             </View>
         </SafeAreaView>
     )

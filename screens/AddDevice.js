@@ -12,6 +12,21 @@ import { SelectList } from 'react-native-dropdown-select-list'
 
 
 const AddDevice = ({ navigation }) => {
+
+    const [selected, setSelected] = React.useState("");
+  
+    const data = [
+        {key:'1',value:'Living Room'},
+        {key:'2',value:'Bedroom'},
+        {key:'3',value:'Kitchen'},
+        {key:'4',value:'Bathroom'},
+    ];
+
+    const data1 = [
+        {key:'1',value:'Fan'},
+        {key:'2',value:'Light'},
+    ];
+
     return(
         <LinearGradient
             style={{flex: 1}}
@@ -77,7 +92,7 @@ const AddDevice = ({ navigation }) => {
                         marginVertical: 8
                     }}>Device type</Text>
 
-                    <View style={{
+                    {/* <View style={{
                         width: "100%",
                         height: 48,
                         borderColor: COLORS.grey,
@@ -94,10 +109,23 @@ const AddDevice = ({ navigation }) => {
                                 width: "100%"
                             }}
                         />
-                    </View>
+                    </View> */}
+                    <SelectList                    
+                        setSelected={setSelected} 
+                        data={data1}   
+                        search={false} 
+                        boxStyles={{borderRadius:10, borderColor: COLORS.grey, height: 52,}} //override default styles
+                        defaultOption={{  value:'Choose your device' }}   //default selected option
+                        dropdownStyles={{
+                            borderColor: COLORS.grey,
+                            borderBottomColor: COLORS.grey
+                        }}
+                        dropdownItemStyles={{marginBottom:10}}
+                        dropdownTextStyles={{borderBottomColor: COLORS.grey}}
+                    />
                 </View>
 
-                <View style={{ marginBottom: 12 }}>
+                {/* <View style={{ marginBottom: 12 }}>
                     <Text style={{
                         fontSize: 16,
                         fontWeight: 400,
@@ -123,7 +151,7 @@ const AddDevice = ({ navigation }) => {
                             }}
                         />
                     </View>
-                </View>
+                </View> */}
 
                 <View style={{ marginBottom: 12 }}>
                     <Text style={{

@@ -146,12 +146,12 @@ const Room = ({ navigation }) => {
                         <Text style={{ fontSize: 20, padding: 20, color: 'white'}}>{"Temperature"}</Text>
                         <StatusBar style="auto" />
                             <View style={{flexDirection: 'row'}}>
-                            <TouchableOpacity style={styles.circleButton} onPress={incrementValue}>
-                                <Text style={styles.buttonText}>+</Text>
-                            </TouchableOpacity>
-                            <Text>   </Text>
                             <TouchableOpacity style={styles.circleButton} onPress={decrementValue}>
                                 <Text style={styles.buttonText}>-</Text>
+                            </TouchableOpacity>
+                            <Text>   </Text>
+                            <TouchableOpacity style={styles.circleButton} onPress={incrementValue}>
+                                <Text style={styles.buttonText}>+</Text>
                             </TouchableOpacity>
                             </View>
                     </View>

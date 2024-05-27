@@ -1,4 +1,4 @@
-import { View, Text, Image , Pressable, TextInput, TouchableOpacity } from 'react-native'
+import { View, Text, Image , Pressable, TextInput, TouchableOpacity, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { SafeAreaView } from "react-native-safe-area-context";
 import COLORS from '../constants/colors';
@@ -9,6 +9,42 @@ import Button from '../components/Button';
 const Login = ({ navigation }) => {
     const [isPasswordShown, setIsPasswordShown] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
+    const [uName,setuName] = useState('');
+    const [uPass,setuPass] = useState('');
+    const [uFullname,setuFullname] = useState('');
+    const [uEmail,setuEmail] = useState('');
+    const [uNum,setuNum] = useState('');
+
+    
+    const handleLogin = async (e) =>
+        {
+            if (!uName) {
+                Alert.alert('Alert', 'Missing user name', [
+                    {
+                      text: 'Cancel',
+                      onPress: () => console.log('Cancel Pressed'),
+                      style: 'cancel',
+                    },
+                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                  ]);
+            }
+            else
+            if (!uPass) {
+                Alert.alert('Alert', 'Missing password', [
+                    {
+                      text: 'Cancel',
+                      onPress: () => console.log('Cancel Pressed'),
+                      style: 'cancel',
+                    },
+                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                  ]);
+            }
+            
+            else
+            {
+                navigation.navigate("MyDrawer")
+            }
+        }
     
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
@@ -34,7 +70,7 @@ const Login = ({ navigation }) => {
                         fontSize: 16,
                         fontWeight: 400,
                         marginVertical: 8
-                    }}>Email address</Text>
+                    }}>User Name</Text>
 
                     <View style={{
                         width: "100%",
@@ -47,12 +83,13 @@ const Login = ({ navigation }) => {
                         paddingLeft: 22
                     }}>
                         <TextInput
-                            placeholder='Enter your email address'
+                            placeholder='Enter your user name'
                             placeholderTextColor={COLORS.black}
-                            keyboardType='email-address'
+                            keyboardType='default'
                             style={{
                                 width: "100%"
                             }}
+                            onChangeText={NewuName=>setuName(NewuName)}
                         />
                     </View>
                 </View>
@@ -81,6 +118,7 @@ const Login = ({ navigation }) => {
                             style={{
                                 width: "100%"
                             }}
+                            onChangeText={NewuPass=>setuPass(NewuPass)}
                         />
 
                         <TouchableOpacity
@@ -102,7 +140,7 @@ const Login = ({ navigation }) => {
                     </View>
                 </View>
 
-                <View style={{
+                {/* <View style={{
                     flexDirection: 'row',
                     marginVertical: 6
                 }}>
@@ -114,11 +152,11 @@ const Login = ({ navigation }) => {
                     />
 
                     <Text>Remenber Me</Text>
-                </View>
+                </View> */}
 
                 <Button
                     title="Login"
-                    onPress={() => navigation.navigate("MyDrawer")}
+                    onPress={handleLogin}
                     filled
                     style={{
                         marginTop: 18,
@@ -126,27 +164,9 @@ const Login = ({ navigation }) => {
                     }}
                 />
 
-                <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 20 }}>
-                    <View
-                        style={{
-                            flex: 1,
-                            height: 1,
-                            backgroundColor: COLORS.grey,
-                            marginHorizontal: 10
-                        }}
-                    />
-                    <Text style={{ fontSize: 14 }}>Or Login with</Text>
-                    <View
-                        style={{
-                            flex: 1,
-                            height: 1,
-                            backgroundColor: COLORS.grey,
-                            marginHorizontal: 10
-                        }}
-                    />
-                </View>
+                
 
-                <View style={{
+                {/* <View style={{
                     flexDirection: 'row',
                     justifyContent: 'center'
                 }}>
@@ -203,7 +223,7 @@ const Login = ({ navigation }) => {
 
                         <Text>Google</Text>
                     </TouchableOpacity>
-                </View>
+                </View> */}
 
                 <View style={{
                     flexDirection: "row",

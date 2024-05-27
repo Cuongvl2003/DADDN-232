@@ -8,6 +8,14 @@ import { LineChart } from 'react-native-chart-kit';
 
 const Home = ({ navigation }) => {
 
+    const rooms = [
+        { name: 'LIVING ROOM', devices: 5 },
+        { name: 'BEDROOM', devices: 6  },
+        { name: 'BATHROOM', devices: 4},
+        { name: 'KITCHEN', devices: 5},
+        { name: 'GARDEN', devices: 3},
+      ];
+
     return (
         <LinearGradient
             style={{flex: 1}}
@@ -110,7 +118,7 @@ const Home = ({ navigation }) => {
                 <ScrollView>
                     <View>
                         <ScrollView
-                            horizontal = {true}>
+                            >
                             <View style={{
                                 flexDirection: 'row',
                                 flexWrap: 'wrap',
@@ -118,15 +126,57 @@ const Home = ({ navigation }) => {
                                 alignItems: 'center',
                                 marginVertical: 5,
                             }}>
-                                <TouchableOpacity 
+
+                                {rooms.map((room, index) => (
+                                    <TouchableOpacity
+                                        key={index}
+                                        onPress={()=>navigation.navigate("Room")}
+                                        style={{
+                                            backgroundColor: COLORS.white,
+                                            width: 150,
+                                            height: 80,
+                                            borderRadius: 20,
+                                            marginHorizontal: 1,
+                                            marginBottom:20,
+                                            marginLeft: 20,  // Adjusting margin for the first item
+                                            marginRight: 20,  // Adjusting margin for the first item
+                                        }}>
+                                    <Text style={{
+                                        textAlign: 'center',
+                                        fontWeight: 'bold',
+                                        fontSize: 11,
+                                        marginTop: 5,
+                                    }}>
+                                        {room.name}
+                                    </Text>
+                                    <Text style={{
+                                        textAlign: 'center',
+                                        fontWeight: 'bold',
+                                        fontSize: 11,
+                                        marginTop: 5,
+                                    }}>
+                                        Devide: {room.devices}
+                                    </Text>
+                                    <Text style={{
+                                        textAlign: 'center',
+                                        fontWeight: 'bold',
+                                        fontSize: 11,
+                                        marginTop: 5,
+                                    }}>
+                                        Active: {room.devices}
+                                    </Text>
+                                    </TouchableOpacity>
+      ))}
+
+                                {/* <TouchableOpacity 
                                     onPress={()=>navigation.navigate("Room")}
                                     style={{
                                     backgroundColor: COLORS.white,
                                     width: '20%',
                                     height: 40,
                                     borderRadius: 20,
-                                    marginLeft: 1,
-                                    marginRight: 1,
+                                    marginLeft: 50,
+                                    marginRight: 50,
                                 }}>
                                     <Text style={{
                                         textAlign: 'center',
@@ -204,7 +254,7 @@ const Home = ({ navigation }) => {
                                     }}>
                                         GARDEN          Devide: 3
                                     </Text>
-                                </TouchableOpacity>
+                                </TouchableOpacity> */}
                             </View>
                         </ScrollView>
                     </View>
@@ -213,34 +263,13 @@ const Home = ({ navigation }) => {
                         justifyContent: 'space-around',
                         alignItems: 'center',
                         }}>
-                        {/* <Image
-                            source={require('../assets/ELECTRICITY.png')}
-                            style={{
-                                width: '70%',
-                                height: 175,
-                                marginBottom: 10,
-                                marginTop: 10,
-                            }}
-                            resizeMode='contain'
-                        />
-                        <Image
-                            source={require('../assets/HOME.png')}
-                            style={{
-                                width: '70%',
-                                height: 175,
-                                marginBottom: 10,
-                                marginTop: 10,
-                            }}
-                            resizeMode='contain'
-                        /> */}
-
 
                         <Text style={{
                             textAlign: 'center',
                             fontWeight: 'bold',
                             fontSize: 20,
                             color:COLORS.white
-                        }}>ELECTRICITY</Text>
+                        }}>HUMIDITY</Text>
                         <LineChart
                             data={{
                             labels: ['0:00', '4:00', '8:00', '12:00', '14:00', '16:00'],
