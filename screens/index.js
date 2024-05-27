@@ -8,6 +8,7 @@ import AccountSetting from "./AccountSetting";
 import DeviceSetting from "./DeviceSetting";
 import AddRoom from "./AddRoom";
 import Notification from "./Notification";
+import Sensor from "./Sensor";
 
 export {
     Login,
@@ -19,5 +20,6 @@ export {
     AccountSetting,
     DeviceSetting,
     AddRoom,
-    Notification
+    Notification,
+    Sensor
 }

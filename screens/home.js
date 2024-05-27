@@ -7,7 +7,6 @@ import { MaterialCommunityIcons, SimpleLineIcons } from '@expo/vector-icons';
 import { LineChart } from 'react-native-chart-kit';
 import axios from 'axios';
 import { url } from './url';
-import Modal from "react-native-modal";
 
 const Home = ({ navigation }) => {
 
@@ -26,21 +25,9 @@ const Home = ({ navigation }) => {
         { name: 'BATHROOM', devices: 4},
         { name: 'KITCHEN', devices: 5},
         { name: 'GARDEN', devices: 3},
-    ];
-    const UserName='Master';
-    const [notificationsCount, setNotificationsCount] = useState(0);
-    const [showNotificationModal, setShowNotificationModal] = useState(false);
-    
-    const handleNotificationPress = () => {
-        setNotificationsCount(0);
-        navigation.navigate("Notification");
-    };
-
-    useEffect(() => {
-        if (notificationsCount > 0) {
-            setShowNotificationModal(true);
-        }
-    }, [notificationsCount]);
+      ];
+      const UserName='Master';
+      const [noti, setNoti]=useState(0)
 
     return (
         <LinearGradient
@@ -211,94 +198,6 @@ const Home = ({ navigation }) => {
                                     
                                     </TouchableOpacity>
       ))}
-
-                                {/* <TouchableOpacity 
-                                    onPress={()=>navigation.navigate("Room")}
-                                    style={{
-                                    backgroundColor: COLORS.white,
-                                    width: '20%',
-                                    height: 40,
-                                    borderRadius: 20,
-                                    marginLeft: 50,
-                                    marginRight: 50,
-                                }}>
-                                    <Text style={{
-                                        textAlign: 'center',
-                                        fontWeight: 'bold',
-                                        fontSize: 10,
-                                        marginTop: 5,
-                                    }}>
-                                        LIVING ROOM         Devide: 5
-                                    </Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity style={{
-                                    backgroundColor:COLORS.white,
-                                    width: '20%',
-                                    height: 40,
-                                    borderRadius: 20,
-                                    marginLeft: 1,
-                                    marginRight: 1,
-                                }}>
-                                    <Text style={{
-                                        textAlign: 'center',
-                                        fontWeight: 'bold',
-                                        fontSize: 11,
-                                        marginTop: 5,
-                                    }}>
-                                        BEDROOM         Devide: 6
-                                    </Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity style={{
-                                    backgroundColor:COLORS.white,
-                                    width: '20%',
-                                    height: 40,
-                                    borderRadius: 20,
-                                    marginLeft: 1,
-                                    marginRight: 1,
-                                }}>
-                                    <Text style={{
-                                        textAlign: 'center',
-                                        fontWeight: 'bold',
-                                        fontSize: 11,
-                                        marginTop: 5,
-                                    }}>
-                                        BATHROOM        Devide: 4
-                                    </Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity style={{
-                                    backgroundColor:COLORS.white,
-                                    width: '15%',
-                                    height: 40,
-                                    borderRadius: 20,
-                                    marginLeft: 1,
-                                    marginRight: 1,
-                                }}>
-                                    <Text style={{
-                                        textAlign: 'center',
-                                        fontWeight: 'bold',
-                                        fontSize: 11,
-                                        marginTop: 5,
-                                    }}>
-                                        KITCHEN         Devide: 5
-                                    </Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity style={{
-                                    backgroundColor:COLORS.white,
-                                    width: '15%',
-                                    height: 40,
-                                    borderRadius: 20,
-                                    marginLeft: 1,
-                                    marginRight: 1,
-                                }}>
-                                    <Text style={{
-                                        textAlign: 'center',
-                                        fontWeight: 'bold',
-                                        fontSize: 11,
-                                        marginTop: 5,
-                                    }}>
-                                        GARDEN          Devide: 3
-                                    </Text>
-                                </TouchableOpacity> */}
                             </View>
                         </ScrollView>
                     </View>
@@ -313,27 +212,36 @@ const Home = ({ navigation }) => {
                             fontWeight: 'bold',
                             fontSize: 20,
                             color:COLORS.white
-                        }}>HUMIDITY</Text>
+                        }}>HUMIDITY (%)</Text>
                         <LineChart
                             data={{
-                            labels: ['0:00', '4:00', '8:00', '12:00', '14:00', '16:00','18:00','20:00'],
-                            datasets: [{
-                                data: [60,62,70,64,68,55,72,60],
-                                strokeWidth: 2,
-                                    },],
+                                labels: [now-12, now-10, now-8, now-6, now-4, now-2, now],
+                                datasets: [
+                                {
+                                data: [
+                                    Math.random() * 100,
+                                    Math.random() * 100,
+                                    Math.random() * 100,
+                                    Math.random() * 100,
+                                    Math.random() * 100,
+                                    Math.random() * 100,
+                                    Math.random() * 100,
+                                ],},],
                             }}
-                            width={Dimensions.get('window').width - 16}
+                            width={Dimensions.get('window').width - 16} // from react-native
                             height={220}
+                            xAxisLabel={':00'}
                             chartConfig={{
-                                backgroundColor: COLORS.white,
+                                backgroundColor: '#1cc910',
                                 backgroundGradientFrom: '#eff3ff',
                                 backgroundGradientTo: '#efefef',
-                                decimalPlaces: 2,
-                                color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                                decimalPlaces: 2, // optional, defaults to 2dp
+                                color: (opacity = 255) => `rgba(0, 0, 0, ${opacity})`,
                                 style: {
                                     borderRadius: 16,
                                 },
-                            }}
+                                }}
+                            bezier
                             style={{
                                 marginVertical: 8,
                                 borderRadius: 16,
@@ -347,10 +255,10 @@ const Home = ({ navigation }) => {
                             fontWeight: 'bold',
                             fontSize: 20,
                             color:COLORS.white
-                        }}>TEMPERATURE</Text>
+                        }}>TEMPERATURE (℃)</Text>
                         <LineChart
                             data={{
-                                labels: ['0:00', '4:00', '8:00', '12:00'],
+                                labels: [now-12, now-10, now-8, now-6, now-4, now-2, now],
                                 datasets: [
                                 {
                                 data: [
@@ -360,13 +268,12 @@ const Home = ({ navigation }) => {
                                     Math.random() * 100,
                                     Math.random() * 100,
                                     Math.random() * 100,
-                                ],
-                                },
-                                ],
+                                    Math.random() * 100,
+                                ],},],
                             }}
                             width={Dimensions.get('window').width - 16} // from react-native
                             height={220}
-                            yAxisLabel={'℃'}
+                            xAxisLabel={':00'}
                             chartConfig={{
                                 backgroundColor: '#1cc910',
                                 backgroundGradientFrom: '#eff3ff',
