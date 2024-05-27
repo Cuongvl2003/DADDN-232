@@ -3,8 +3,9 @@ import React, { useState } from 'react'
 import { SafeAreaView } from "react-native-safe-area-context";
 import COLORS from '../constants/colors';
 import { Ionicons } from "@expo/vector-icons";
-import Checkbox from "expo-checkbox"
 import Button from '../components/Button';
+import axios from 'axios';
+import { url } from './url';
 
 const Login = ({ navigation }) => {
     const [isPasswordShown, setIsPasswordShown] = useState(false);
@@ -18,6 +19,8 @@ const Login = ({ navigation }) => {
     
     const handleLogin = async (e) =>
         {
+            setuName('tungle');
+            setuPass('123456');
             if (!uName) {
                 Alert.alert('Alert', 'Missing user name', [
                     {
@@ -41,10 +44,36 @@ const Login = ({ navigation }) => {
             }
             
             else
-            {
-                navigation.navigate("MyDrawer")
+            {   
+                try {
+                    const data =  await axios.post(`${url}api/login`, 
+                {
+                    userName: uName,
+                    password: uPass
+                }
+                )
+                console.log(data.data);
+                if (data.data) navigation.navigate("MyDrawer")
+                }
+                catch (err) {
+                    Alert.alert('Alert', 'Username or password is wrong! ', [
+                        {
+                          text: 'Cancel',
+                          onPress: () => console.log('Cancel Pressed'),
+                          style: 'cancel',
+                        },
+                        {text: 'OK', onPress: () => console.log('OK Pressed')},
+                      ]);
+                
+                }
             }
+
+        
+
+        
         }
+
+        
     
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
@@ -89,7 +118,9 @@ const Login = ({ navigation }) => {
                             style={{
                                 width: "100%"
                             }}
-                            onChangeText={NewuName=>setuName(NewuName)}
+                            defaultValue='tungle'
+                            //onChangeText={NewuName=>setuName(NewuName)}
+                            
                         />
                     </View>
                 </View>
@@ -118,7 +149,9 @@ const Login = ({ navigation }) => {
                             style={{
                                 width: "100%"
                             }}
-                            onChangeText={NewuPass=>setuPass(NewuPass)}
+                            defaultValue='123456'
+                            //onChangeText={NewuPass=>setuPass(NewuPass)}
+                            
                         />
 
                         <TouchableOpacity

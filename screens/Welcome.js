@@ -64,8 +64,8 @@ const Welcome = ({ navigation }) => {
                     </View>
 
                     <Button
-                        title="Join Now"
-                        onPress={() => navigation.navigate("Signup")}
+                        title="Login"
+                        onPress={() => navigation.navigate("Login")}
                         style={{
                             marginTop: 22,
                             width: "100%"
@@ -80,16 +80,16 @@ const Welcome = ({ navigation }) => {
                         <Text style={{
                             fontSize: 16,
                             color: COLORS.white
-                        }}>Already have an account ?</Text>
+                        }}>Don't have an account ?</Text>
                         <Pressable
-                            onPress={() => navigation.navigate("Login")}
+                            onPress={() => navigation.navigate("Signup")}
                         >
                             <Text style={{
                                 fontSize: 16,
                                 color: COLORS.white,
-                                fontWeight: "bold",
+                                fontWeight: 900,
                                 marginLeft: 4
-                            }}>Login</Text>
+                            }}>Sign Up</Text>
                         </Pressable>
 
                     </View>

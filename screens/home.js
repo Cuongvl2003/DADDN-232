@@ -1,13 +1,24 @@
 import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet, Dimensions } from 'react-native'
-import React,{useState} from 'react'
+import React,{useState, useEffect} from 'react'
 import { SafeAreaView } from "react-native-safe-area-context";
 import COLORS from '../constants/colors';
 import { LinearGradient } from "expo-linear-gradient";
 import { MaterialCommunityIcons, SimpleLineIcons } from '@expo/vector-icons';
 import { LineChart } from 'react-native-chart-kit';
+import axios from 'axios';
+import { url } from './url';
 
 const Home = ({ navigation }) => {
 
+    // const [rooms, setRooms]=useState([]);
+    // useEffect( ()=>{
+    //     const fetchRoom = async() => {
+    //         const res = await axios.get(`${url}api/rooms`);
+    //         console.log(res);
+    //         setRooms(res.data)
+    //     }
+    //     fetchRoom()
+    // }, [])
     const rooms = [
         { name: 'LIVING ROOM', devices: 5 },
         { name: 'BEDROOM', devices: 6  },
@@ -15,7 +26,7 @@ const Home = ({ navigation }) => {
         { name: 'KITCHEN', devices: 5},
         { name: 'GARDEN', devices: 3},
       ];
-      const UserName='Tung';
+      const UserName='Master';
       const [noti, setNoti]=useState(0)
 
     return (
@@ -133,15 +144,14 @@ const Home = ({ navigation }) => {
                                 marginVertical: 5,
                             }}>
 
-                                {rooms.map((room, index) => (
+                                {rooms.map((room) => (
                                     <TouchableOpacity
-                                        key={index}
                                         onPress={()=>navigation.navigate("Room")}
                                         style={{
                                             backgroundColor: COLORS.white,
                                             width: 150,
-                                            height: 80,
-                                            borderRadius: 20,
+                                            height: 65,
+                                            borderRadius: 10,
                                             marginHorizontal: 1,
                                             marginBottom:20,
                                             marginLeft: 20,  // Adjusting margin for the first item
@@ -161,16 +171,9 @@ const Home = ({ navigation }) => {
                                         fontSize: 11,
                                         marginTop: 5,
                                     }}>
-                                        Device: {room.devices}
+                                        Device: {room.deviceCount}
                                     </Text>
-                                    <Text style={{
-                                        textAlign: 'center',
-                                        fontWeight: 'bold',
-                                        fontSize: 11,
-                                        marginTop: 5,
-                                    }}>
-                                        Active: {room.devices}
-                                    </Text>
+                                    
                                     </TouchableOpacity>
       ))}
 

@@ -5,6 +5,8 @@ import COLORS from '../constants/colors';
 import { Ionicons } from "@expo/vector-icons";
 import Checkbox from "expo-checkbox"
 import Button from '../components/Button';
+import axios from 'axios';
+import { url } from './url';
 
 const Signup = ({ navigation }) => {
     const [isPasswordShown, setIsPasswordShown] = useState(false);
@@ -74,7 +76,30 @@ const Signup = ({ navigation }) => {
             }
             else
             {
-                navigation.navigate("MyDrawer")
+                try {
+                    const data =  await axios.post(`${url}api/register`, 
+                {
+                    userName: uName,
+                    password: uPass,
+                    email: uEmail,
+                    phoneNumber: uNum,
+                    fullname:uFullname
+                }
+                )
+                console.log(data.data);
+                if (data.data) navigation.navigate("Login")
+                }
+                catch (err) {
+                    Alert.alert('Alert', 'Account already existed! ', [
+                        {
+                          text: 'Cancel',
+                          onPress: () => console.log('Cancel Pressed'),
+                          style: 'cancel',
+                        },
+                        {text: 'OK', onPress: () => console.log('OK Pressed')},
+                      ]);
+                
+                }
             }
         }
 
