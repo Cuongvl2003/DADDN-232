@@ -8,6 +8,7 @@ import { LineChart } from 'react-native-chart-kit';
 import axios from 'axios';
 import { url } from './url';
 import Modal from "react-native-modal";
+import DateTimePicker from "react-native-modal-datetime-picker";
 
 const Home = ({ navigation }) => {
 
@@ -30,6 +31,8 @@ const Home = ({ navigation }) => {
     const UserName='Master';
     const [notificationsCount, setNotificationsCount] = useState(0);
     const [showNotificationModal, setShowNotificationModal] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
+    const [date, setDate] = useState(new Date());
     let now=new Date().getHours();       
 
     
@@ -210,7 +213,6 @@ const Home = ({ navigation }) => {
                                     }}>
                                         Device: {room.deviceCount}
                                     </Text>
-                                    
                                     </TouchableOpacity>
       ))}
                             </View>
@@ -221,6 +223,36 @@ const Home = ({ navigation }) => {
                         justifyContent: 'space-around',
                         alignItems: 'center',
                         }}>
+
+                    <View style={{
+                        width:200,
+                        height:100,
+                        backgroundColor: 'white',
+                        justifyContent: 'space-around',
+                        alignItems: 'center',
+                        marginTop: 10,
+                        borderRadius: 20,
+                    }}>
+                        <DateTimePicker
+                            isVisible={isVisible}
+                            mode="date"
+                            onConfirm={(selectedDate) => {
+                            setIsVisible(false);
+                            setDate(selectedDate);
+                            }}
+                            onCancel={() => setIsVisible(false)}
+                            minimumDate={new Date(Date.now() - 3600 * 1000 * 24 * 30)}
+                            maximumDate={new Date()}
+                        />
+                        <Text style={{
+                            textAlign: 'center',
+                            fontWeight: 'bold',
+                            fontSize: 20,
+                        }}>
+                            {date.toLocaleDateString()}
+                        </Text>
+                        <Button title="Chọn ngày" onPress={() => setIsVisible(true)} />
+                    </View>
 
                         <Text style={{
                             textAlign: 'center',
