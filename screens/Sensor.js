@@ -59,23 +59,83 @@ const Sensor = ({ navigation }) => {
                     <Text style={{
                         fontSize: 16,
                         fontWeight: 400,
-                        color: COLORS.darkgrey,
-                        marginVertical: 8
-                    }}>Device type</Text>
+                        color: 'black',
+                        marginVertical: 8,
+                        marginTop:20,
+                        marginBottom:20,
+                        fontWeight: 'bold'
+                    }}>TEMPERATURE SENSOR</Text>
 
-                    <SelectList                    
-                        setSelected={setSelected} 
-                        data={data1}   
-                        search={false} 
-                        boxStyles={{borderRadius:10, borderColor: COLORS.grey, height: 52,}} //override default styles
-                        defaultOption={{  value:'Choose your device' }}   //default selected option
-                        dropdownStyles={{
-                            borderColor: COLORS.grey,
-                            borderBottomColor: COLORS.grey
-                        }}
-                        dropdownItemStyles={{marginBottom:10}}
-                        dropdownTextStyles={{borderBottomColor: COLORS.grey}}
-                    />
+                    <View style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-around',
+                    }}>
+                    <Text style={{
+                        fontSize: 16,
+                        fontWeight: 400,
+                        color: 'black',
+                        marginVertical: 8
+                    }}>Lower Threshold: </Text>
+                    <View style={{
+                        width: "50%",
+                        height: 48,
+                        borderColor: COLORS.black,
+                        borderWidth: 1,
+                        borderRadius: 8,
+                        alignItems: "center",
+                        justifyContent: "center",
+                        paddingLeft: 22,
+                        marginBottom:10
+                    }}>
+                        
+                        <TextInput
+                            placeholder='50'
+                            placeholderTextColor={COLORS.black}
+                            keyboardType='numeric'
+                            style={{
+                                width: "100%"
+                            }}
+                            defaultValue={50}
+                            //onChangeText={NewuName=>setuName(NewuName)}
+                            
+                        />
+                    </View>
+                    </View>
+                    <View style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-around',
+                    }}>
+                    <Text style={{
+                        fontSize: 16,
+                        fontWeight: 400,
+                        color: 'black',
+                        marginVertical: 8
+                    }}>Upper Threshold: </Text>
+                    <View style={{
+                        width: "50%",
+                        height: 48,
+                        borderColor: COLORS.black,
+                        borderWidth: 1,
+                        borderRadius: 8,
+                        alignItems: "center",
+                        justifyContent: "center",
+                        paddingLeft: 22,
+                        marginBottom:10
+                    }}>
+                        
+                        <TextInput
+                            placeholder='50'
+                            placeholderTextColor={COLORS.black}
+                            keyboardType='numeric'
+                            style={{
+                                width: "100%"
+                            }}
+                            defaultValue={50}
+                            //onChangeText={NewuName=>setuName(NewuName)}
+                            
+                        />
+                    </View>
+                    </View>
                 </View>
 
 
@@ -83,25 +143,83 @@ const Sensor = ({ navigation }) => {
                     <Text style={{
                         fontSize: 16,
                         fontWeight: 400,
+                        color: 'black',
                         marginVertical: 8,
-                        color:COLORS.darkgrey,
-                    }}>Add to</Text>
-                    
-                    <SelectList                    
-                        setSelected={setSelected} 
-                        data={data}   
-                        search={false} 
-                        boxStyles={{borderRadius:10, borderColor: COLORS.grey, height: 52,}} //override default styles
-                        defaultOption={{ key:'1', value:'Living Room' }}   //default selected option
-                        dropdownStyles={{
-                            borderColor: COLORS.grey,
-                            borderBottomColor: COLORS.grey
-                        }}
-                        dropdownItemStyles={{marginBottom:10}}
-                        dropdownTextStyles={{borderBottomColor: COLORS.grey}}
-                    />
+                        marginTop:20,
+                        marginBottom:20,
+                        fontWeight: 'bold'
+                    }}>HUMIDITY SENSOR</Text>
 
-                    
+                    <View style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-around',
+                    }}>
+                    <Text style={{
+                        fontSize: 16,
+                        fontWeight: 400,
+                        color: 'black',
+                        marginVertical: 8
+                    }}>Lower Threshold: </Text>
+                    <View style={{
+                        width: "50%",
+                        height: 48,
+                        borderColor: COLORS.black,
+                        borderWidth: 1,
+                        borderRadius: 8,
+                        alignItems: "center",
+                        justifyContent: "center",
+                        paddingLeft: 22,
+                        marginBottom:10
+                    }}>
+                        
+                        <TextInput
+                            placeholder='50'
+                            placeholderTextColor={COLORS.black}
+                            keyboardType='numeric'
+                            style={{
+                                width: "100%"
+                            }}
+                            defaultValue={50}
+                            //onChangeText={NewuName=>setuName(NewuName)}
+                            
+                        />
+                    </View>
+                    </View>
+                    <View style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-around',
+                    }}>
+                    <Text style={{
+                        fontSize: 16,
+                        fontWeight: 400,
+                        color: 'black',
+                        marginVertical: 8
+                    }}>Upper Threshold: </Text>
+                    <View style={{
+                        width: "50%",
+                        height: 48,
+                        borderColor: COLORS.black,
+                        borderWidth: 1,
+                        borderRadius: 8,
+                        alignItems: "center",
+                        justifyContent: "center",
+                        paddingLeft: 22,
+                        marginBottom:10
+                    }}>
+                        
+                        <TextInput
+                            placeholder='50'
+                            placeholderTextColor={COLORS.black}
+                            keyboardType='numeric'
+                            style={{
+                                width: "100%"
+                            }}
+                            defaultValue={50}
+                            //onChangeText={NewuName=>setuName(NewuName)}
+                            
+                        />
+                    </View>
+                    </View>
                 </View> 
 
                 
@@ -113,9 +231,8 @@ const Sensor = ({ navigation }) => {
                     >
                         <TouchableOpacity
                             style={styles.button1}
-                            onPress={() => setContent("watering")}
                         >
-                            <Text style={styles.buttonText1}>Add device</Text>
+                            <Text style={styles.buttonText1}>SAVE</Text>
                         </TouchableOpacity>
                     </LinearGradient>             
 
