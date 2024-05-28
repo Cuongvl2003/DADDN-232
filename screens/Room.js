@@ -12,11 +12,13 @@ import Slider from '@react-native-community/slider';
 
 
 
-const Room = ({ navigation }) => {
+const Room = ({ route, navigation }) => {
+
+    const { name } = route.params;
 
     const [value, setValue] = useState(0);
     const [totalTaps, setTotalTaps] = useState(0);
-    const [speed, setSpeed] = useState(0);
+    const [speed, setSpeed] = useState();
 
     const incrementValue = () => {
         setValue(value + 1);
@@ -27,8 +29,7 @@ const Room = ({ navigation }) => {
         setValue(value - 1);
         setTotalTaps(totalTaps - 1);
     }
-    const [isEnabled, setIsEnabled] = useState(false);
-    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+    
 
     const increase = () => {
         if (speed < 100){
@@ -42,7 +43,21 @@ const Room = ({ navigation }) => {
             setSpeed(newSpeed);
         }
     };
-    let RoomName='living room';
+    const room3 = [
+        { name: 'Fan1', Stat: true},
+        { name: 'Fan2', Stat: false},
+        { name: 'light1', Stat: true},
+        { name: 'light2', Stat: false},
+        { name: 'light3', Stat: false},
+      ];
+    const [rooms, setRooms]=useState(room3);
+    const toggleRoomStat = (index) => {
+        setRooms((prevRooms) =>
+          prevRooms.map((room, idx) =>
+            idx === index ? { ...room, Stat: !room.Stat } : room
+          )
+        );
+      };
 
     return(
         <LinearGradient
@@ -69,7 +84,7 @@ const Room = ({ navigation }) => {
                             fontSize:20,
                             marginTop:15,
                             justifyContent: "center",
-                        color:"white"}}> {RoomName}</Text>
+                        color:"white"}}> {name}</Text>
                 </View>
 
                 <View>
@@ -79,121 +94,61 @@ const Room = ({ navigation }) => {
                     <ScrollView>
                     <Text>   </Text>
 
-                    <View style={styles.container2}>
-                    <Text style={{color:'white',fontSize:20, marginLeft:30}}>Light List:</Text>
-                    <Text> </Text>
-                    <ScrollView>
-                        <View style={styles.container1}> 
-                            <MaterialCommunityIcons name="lightbulb-on" size={24} color="#005ce6" />
-                            <Text style={{color:'black',fontSize:20}}>light1</Text>
-                            <Switch
-                                trackColor={{false: '#c0bfc0', true: '#c0bfc0'}}
-                                thumbColor={isEnabled ? '#005ce6' : '#99989a'}
-                                ios_backgroundColor='#4dff88'
-                                onValueChange={toggleSwitch}
-                                value={isEnabled}
-                            />
-                            <TouchableOpacity 
-                                onPress={()=>navigation.navigate("DeviceSetting")}>
-                                <Ionicons name="settings-outline" size={30} color="black" />
-                            </TouchableOpacity>
-                            
-                        </View>
-                        <Text> </Text>
-                        <View style={styles.container1}> 
-                            <MaterialCommunityIcons name="lightbulb-on" size={24} color="#005ce6" />
-                            <Text style={{color:'black',fontSize:20}}>light2</Text>
-                            <Switch
-                                trackColor={{false: '#c0bfc0', true: '#c0bfc0'}}
-                                thumbColor={isEnabled ? '#005ce6' : '#99989a'}
-                                ios_backgroundColor='#4dff88'
-                                onValueChange={toggleSwitch}
-                                value={isEnabled}
-                            />
-                            <TouchableOpacity 
-                                onPress={()=>navigation.navigate("DeviceSetting")}>
-                                <Ionicons name="settings-outline" size={30} color="black" />
-                            </TouchableOpacity>
-                        </View>
-                        <Text> </Text>
-                        
-                    </ScrollView>
-                    </View>
 
-                    <View style={styles.container2}>
-                    <Text style={{color:'white',fontSize:20, marginLeft:50}}>Fan List:</Text>
-                    <Text> </Text>
-                    <ScrollView>
-                        <View style={styles.container4}>
-                            <View style={styles.container3}> 
-                                <MaterialCommunityIcons name="fan" size={24} color="#005ce6" />
-                                <Text style={{color:'black',fontSize:20}}>fan1</Text>
-                            
-                                <TouchableOpacity 
-                                    onPress={()=>navigation.navigate("DeviceSetting")}>
-                                    <Ionicons name="settings-outline" size={30} color="black" />
-                                </TouchableOpacity>
-                            
+                            <ScrollView
+                            >
+                            <View style={{
+                                flexDirection: 'row',
+                                flexWrap: 'wrap',
+                                justifyContent: 'space-around',
+                                alignItems: 'center',
+                                marginVertical: 5,
+                            }}>
+
+                                {rooms.map((room, index) => (
+                                    <View
+                                        key={index}
+                                        
+                                        style={{
+                                            backgroundColor: COLORS.white,
+                                            alignItems:'center',
+                                            justifyContent:'center',
+                                            width: 150,
+                                            height: 100,
+                                            borderRadius: 10,
+                                            marginHorizontal: 1,
+                                            marginBottom:40,
+                                            marginLeft: 20,  // Adjusting margin for the first item
+                                            marginRight: 20,  // Adjusting margin for the first item
+                                        }}>
+                                            <Text style={{
+                                            textAlign: 'center',
+                                            fontWeight: 'bold',
+                                            fontSize: 20,
+                                            marginTop: 5,
+                                            }}>{room.name}</Text>
+                                            <View style={styles.container3}>
+                                                <Text style={{
+                                                    textAlign: 'center',
+                                                fontWeight: 'bold',
+                                                fontSize: 20,
+                                                
+                                                }}>{room.Stat ? 'ON:  ': 'OFF:  '}</Text>
+
+                                                <Switch
+                                                    trackColor={{false: '#c0bfc0', true: '#c0bfc0'}}
+                                                    thumbColor={room.Stat ? '#005ce6' : '#99989a'}
+                                                    ios_backgroundColor='#4dff88'
+                                                    value={room.Stat}
+                                                    onValueChange={() => toggleRoomStat(index)}
+                                                />
+                                            </View>
+                                    
+                                    </View>
+                                ))}
                             </View>
-                            <Text style={{ 
-                                fontSize: 20,
-                                padding: 5,
-                                borderRadius: 10,
-                                fontWeight: 10,
-                                marginBottom: 15,
-                                }}>Speed: {speed}</Text>
-                            <Slider
-                                style = {{ width: 300, height: 20, transform: [{ scaleY: 2 }]}}
-                                value={speed}
-                                onValueChange={(value) => setSpeed(value)}
-                                minimumValue={0}
-                                maximumValue={100}
-                                step={1}
-                                minimumTrackTintColor="#005ce6"
-                                maximumTrackTintColor="#CCCCCC"
-                                thumbTintColor="#CCCCCC"
-                            />
-                            <Text> </Text>
-                        </View>
+                        </ScrollView>
 
-
-                        <Text> </Text>
-                        <View style={styles.container4}>
-                            <View style={styles.container3}> 
-                                <MaterialCommunityIcons name="fan" size={24} color="#005ce6" />
-                                <Text style={{color:'black',fontSize:20}}>fan2</Text>
-                            
-                                <TouchableOpacity 
-                                    onPress={()=>navigation.navigate("DeviceSetting")}>
-                                    <Ionicons name="settings-outline" size={30} color="black" />
-                                </TouchableOpacity>
-                            
-                            </View>
-                            <Text style={{ 
-                                fontSize: 20,
-                                padding: 5,
-                                borderRadius: 10,
-                                fontWeight: 10,
-                                marginBottom: 15,
-                                }}>Speed: {speed}</Text>
-                            <Slider
-                                style = {{ width: 300, height: 20, transform: [{ scaleY: 2 }]}}
-                                value={speed}
-                                onValueChange={(value) => setSpeed(value)}
-                                minimumValue={0}
-                                maximumValue={100}
-                                step={1}
-                                minimumTrackTintColor="#005ce6"
-                                maximumTrackTintColor="#CCCCCC"
-                                thumbTintColor="#CCCCCC"
-                            />
-                            <Text> </Text>
-                        </View>
-                        <Text> </Text>
-                        
-                        
-                    </ScrollView>
-                    </View>
                     </ScrollView>
 
             
@@ -269,20 +224,8 @@ const styles=StyleSheet.create({
         borderColor: 'white',
         borderRadius:10,
         borderWidth:10,
-        width:310,
+        width:100,
         marginLeft:30,
         marginRight:30,
-    },
-    container4:{
-        flex: 1,
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'space-around',
-        backgroundColor:'white',
-        borderColor: 'white',
-        borderRadius:10,
-        borderWidth:2,
-        marginLeft:30,
-        marginRight:30
     },
 });
