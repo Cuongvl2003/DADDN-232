@@ -1,5 +1,5 @@
 import { View, Text, Image, Pressable, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import COLORS from '../constants/colors';
@@ -9,21 +9,49 @@ import { MaterialCommunityIcons, SimpleLineIcons } from '@expo/vector-icons';
 import Checkbox from "expo-checkbox"
 import Button from '../components/Button';
 import { ScrollView } from 'react-native-gesture-handler';
-
+import { url } from './url';
+import axios from 'axios';
+import AuthContext from '../authContext';
+// axios.defaults.withCredentials = true;
 
 const AccountSetting = ({ navigation }) => {
 
-    // State variable to hold the password 
-    const [password, setPassword] = useState(''); 
-  
-    // State variable to track password visibility 
-    const [showPassword, setShowPassword] = useState(false); 
-  
-    // Function to toggle the password visibility state 
+    const [password, setPassword] = useState('');   
+    const [showPassword, setShowPassword] = useState(true); 
+    const { token } = useContext(AuthContext);
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
     const toggleShowPassword = () => { 
         setShowPassword(!showPassword); 
     };
 
+    const [fullName, setFullName] = useState('');
+    const [email, setEmail] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
+
+    const handleSave = async () => {
+        await axios.put(`${url}/api/users/update`, {
+            fullName,
+            email,
+            phoneNumber,
+            password,
+        }, config);
+        setPassword('');
+        navigation.navigate('Home');
+    }
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            const res = await axios.get(`${url}/api/users/info`, config);
+            setFullName(res.data.fullName);
+            setEmail(res.data.email);
+            setPhoneNumber(res.data.phoneNumber);
+        }
+        fetchUser();
+    }, [])
 
     return(
         <LinearGradient
@@ -38,7 +66,9 @@ const AccountSetting = ({ navigation }) => {
                         justifyContent: 'center',
                     }}>
                         <TouchableOpacity 
-                            onPress={()=>navigation.openDrawer()}>
+                            // onPress={handleBack}
+                            onPressIn={() => navigation.openDrawer()}
+                        >
                             <SimpleLineIcons name="menu" size={30} color="white" 
                                 style={{
                                     marginTop: 10,
@@ -75,6 +105,8 @@ const AccountSetting = ({ navigation }) => {
                     }}>
                         <TextInput
                             placeholderTextColor={COLORS.black}
+                            defaultValue={fullName}
+                            onChangeText={value => setFullName(value)}
                             keyboardType='ascii-capable'
                             style={{
                                 width: "100%"
@@ -82,34 +114,6 @@ const AccountSetting = ({ navigation }) => {
                         />
                     </View>
                 </View>
-
-                {/* <View style={{ marginBottom: 12 }}>
-                    <Text style={{
-                        fontSize: 16,
-                        fontWeight: 400,
-                        color: COLORS.darkgrey,
-                        marginVertical: 8
-                    }}>Last Name</Text>
-
-                    <View style={{
-                        width: "100%",
-                        height: 48,
-                        borderColor: COLORS.grey,
-                        borderWidth: 1,
-                        borderRadius: 8,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        paddingLeft: 22
-                    }}>
-                        <TextInput
-                            placeholderTextColor={COLORS.black}
-                            keyboardType='ascii-capable'
-                            style={{
-                                width: "100%"
-                            }}
-                        />
-                    </View>
-                </View> */}
 
                 <View style={{ marginBottom: 12 }}>
                     <Text style={{
@@ -132,6 +136,8 @@ const AccountSetting = ({ navigation }) => {
                         <TextInput
                             placeholderTextColor={COLORS.black}
                             keyboardType='email-address'
+                            defaultValue={email}
+                            onChangeText={value => setEmail(value)}
                             style={{
                                 width: "100%"
                             }}
@@ -160,6 +166,8 @@ const AccountSetting = ({ navigation }) => {
                         <TextInput
                             placeholderTextColor={COLORS.black}
                             keyboardType='name-phone-pad'
+                            defaultValue={phoneNumber}
+                            onChangeText={value => setPhoneNumber(value)}
                             style={{
                                 width: "100%"
                             }}
@@ -182,7 +190,7 @@ const AccountSetting = ({ navigation }) => {
                     //password when showPassword is false 
                     secureTextEntry={!showPassword} 
                     value={password} 
-                    onChangeText={setPassword} 
+                    onChangeText={val => setPassword(val)}
                     style={styles.input} 
                     placeholder="Enter Password"
                     placeholderTextColor="#aaa"
@@ -206,9 +214,9 @@ const AccountSetting = ({ navigation }) => {
                 >
                     <TouchableOpacity
                         style={styles.button1}
-                        onPress={() => setContent("watering")}
+                        onPress={handleSave}
                     >
-                        <Text style={styles.buttonText1}>Add device</Text>
+                        <Text style={styles.buttonText1}>SAVE</Text>
                     </TouchableOpacity>
                 </LinearGradient>            
             </View>

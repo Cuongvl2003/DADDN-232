@@ -1,17 +1,20 @@
-import { View, Text, Image , Pressable, TextInput, TouchableOpacity, Alert } from 'react-native'
-import React, { useState } from 'react'
+import { View, Text, Image , Pressable, TextInput, TouchableOpacity, Alert, StyleSheet } from 'react-native'
+import React, { useState, useContext } from 'react'
 import { SafeAreaView } from "react-native-safe-area-context";
 import COLORS from '../constants/colors';
 import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 import Button from '../components/Button';
 import axios from 'axios';
 import { url } from './url';
-
+import AuthContext from '../authContext';
+// // axios.defaults.withCredentials = true;
 const Login = ({ navigation }) => {
-    const [isPasswordShown, setIsPasswordShown] = useState(false);
+    const { setToken, setUser } = useContext(AuthContext);
+    const [isPasswordShown, setIsPasswordShown] = useState(true);
     const [isChecked, setIsChecked] = useState(false);
-    const [uName,setuName] = useState('');
-    const [uPass,setuPass] = useState('');
+    const [uName,setuName] = useState('tungle');
+    const [uPass,setuPass] = useState('123456');
     const [uFullname,setuFullname] = useState('');
     const [uEmail,setuEmail] = useState('');
     const [uNum,setuNum] = useState('');
@@ -19,8 +22,6 @@ const Login = ({ navigation }) => {
     
     const handleLogin = async (e) =>
         {
-            setuName('tungle');
-            setuPass('123456');
             if (!uName) {
                 Alert.alert('Alert', 'Missing user name', [
                     {
@@ -45,35 +46,33 @@ const Login = ({ navigation }) => {
             
             else
             {   
-                navigation.navigate("MyDrawer")
-                // try {
-                //     const data =  await axios.post(`${url}api/login`, 
-                // {
-                //     userName: uName,
-                //     password: uPass
-                // }
-                // )
-                // console.log(data.data);
-                // if (data.data) navigation.navigate("MyDrawer")
-                // }
-                // catch (err) {
-                //     Alert.alert('Alert', 'Username or password is wrong! ', [
-                //         {
-                //           text: 'Cancel',
-                //           onPress: () => console.log('Cancel Pressed'),
-                //           style: 'cancel',
-                //         },
-                //         {text: 'OK', onPress: () => console.log('OK Pressed')},
-                //       ]);
+                // navigation.navigate("MyDrawer")
+                try {
+                    const data =  await axios.post(`${url}/api/login`, 
+                {
+                    userName: uName,
+                    password: uPass
+                },)
+                    if (data.data) {
+                        setToken(data.data.token);
+                        setUser(data.data.userName);
+                        navigation.navigate("MyDrawer")
+                    }
+                }
+                catch (err) {
+                //     console.log(err);
+                    Alert.alert('Alert', 'Username or password is wrong! ', [
+                        {
+                          text: 'Cancel',
+                          onPress: () => console.log('Cancel Pressed'),
+                          style: 'cancel',
+                        },
+                        {text: 'OK', onPress: () => console.log('OK Pressed')},
+                      ]);
                 
-                // }
+                }
             }
-
-        
-
-        
         }
-
         
     
     return (
@@ -119,8 +118,7 @@ const Login = ({ navigation }) => {
                             style={{
                                 width: "100%"
                             }}
-                            defaultValue='tungle'
-                            //onChangeText={NewuName=>setuName(NewuName)}
+                            onChangeText={NewuName=>setuName(NewuName)}
                             
                         />
                     </View>
@@ -150,8 +148,7 @@ const Login = ({ navigation }) => {
                             style={{
                                 width: "100%"
                             }}
-                            defaultValue='123456'
-                            //onChangeText={NewuPass=>setuPass(NewuPass)}
+                            onChangeText={NewuPass=>setuPass(NewuPass)}
                             
                         />
 
@@ -197,8 +194,6 @@ const Login = ({ navigation }) => {
                         marginBottom: 4,
                     }}
                 />
-
-                
 
                 {/* <View style={{
                     flexDirection: 'row',
