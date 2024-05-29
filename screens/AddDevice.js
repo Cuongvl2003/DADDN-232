@@ -1,5 +1,5 @@
 import { View, Text, Image, Pressable, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import COLORS from '../constants/colors';
@@ -11,30 +11,34 @@ import Button from '../components/Button';
 import { SelectList } from 'react-native-dropdown-select-list'
 import axios from 'axios';
 import { url } from './url';
-
+import AuthContext from '../authContext';
+// axios.defaults.withCredentials = true;
 
 const AddDevice = ({ navigation }) => {
 
     const [selected, setSelected] = React.useState("");
-  
-    const data = [
-        {key:'1',value:'Living Room'},
-        {key:'2',value:'Bedroom'},
-        {key:'3',value:'Kitchen'},
-        {key:'4',value:'Bathroom'},
-    ];
+    const [rooms, setRooms] = useState([]);
+    const [deviceTypes, setDeviceTypes] = useState([]);
+    const { token } = useContext(AuthContext);
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const rooms = await axios.get(`${url}/api/rooms`, config);
+                setRooms(rooms.data);
+                const deviceTypes = await axios.get(`${url}/api/devices/type`, config);
+                setDeviceTypes(deviceTypes.data);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        fetchData();
+    }, [])
 
-    const data1 = [
-        {key:'1',value:'Fan'},
-        {key:'2',value:'Light'},
-    ];
-    const rooms = [
-        { name: 'LIVING ROOM', devices: 5 },
-        { name: 'BEDROOM', devices: 6  },
-        { name: 'BATHROOM', devices: 4},
-        { name: 'KITCHEN', devices: 5},
-        { name: 'GARDEN', devices: 3},
-      ];
       const room1 = rooms.map(room => ({ value: room.name }));//rooms là dữ liệu lấy từ api, còn room1 là dữ liệu lấy từ rooms để xử lý
 
 
@@ -58,14 +62,30 @@ const AddDevice = ({ navigation }) => {
             }
             else
             {   
-                Alert.alert(' ', 'Adding devicec successfully', [
-                    {
-                      text: 'Cancel',
-                      onPress: () => console.log('Cancel Pressed'),
-                      style: 'cancel',
-                    },
-                    {text: 'OK', onPress: () => console.log('OK Pressed')},
-                  ]);
+                const selectRoom = rooms.find(room => room.name === addto);
+                const roomId = selectRoom.id;
+
+                try {
+                    const res = await axios.post(`${url}/api/devices`, {
+                        name: deviceName,
+                        deviceTypeId: deviceType,
+                        roomId: roomId,
+                    }, config);
+                    Alert.alert(' ', 'Adding device successfully', [
+                        {
+                          text: 'Cancel',
+                          onPress: () => console.log('Cancel Pressed'),
+                          style: 'cancel',
+                        },
+                        {text: 'OK', onPress: () => console.log('OK Pressed')},
+                      ]);
+                    setDeviceName('');
+                    navigation.navigate('Home', {
+                        hasNewDevice: res.data.id,
+                    });
+                } catch (error) {
+                    navigation.navigate('Home');
+                }
             }
         }
     return(
@@ -81,7 +101,7 @@ const AddDevice = ({ navigation }) => {
                         justifyContent: 'center',
                     }}>
                         <TouchableOpacity 
-                            onPress={()=>navigation.openDrawer()}>
+                            onPressIn={()=>navigation.openDrawer()}>
                             <SimpleLineIcons name="menu" size={30} color="white" 
                                 style={{
                                     marginTop: 10,
@@ -121,6 +141,7 @@ const AddDevice = ({ navigation }) => {
                             style={{
                                 width: "100%"
                             }}
+                            value={deviceName}
                             onChangeText={NewDeviceName=>setDeviceName(NewDeviceName)}
                         />
                     </View>
@@ -135,16 +156,15 @@ const AddDevice = ({ navigation }) => {
                     }}>Device type</Text>
 
                     <SelectList                    
-                        setSelected={setSelected} 
-                        data={data1}   
+                        setSelected={val => setDeviceType(val)} 
+                        data={deviceTypes}   
                         search={false} 
                         boxStyles={{borderRadius:10, borderColor: COLORS.grey, height: 52,}} //override default styles
-                        defaultOption={{  value:'light' }}   //default selected option
+                        // defaultOption={{  value:'Led' }}   //default selected option
                         dropdownStyles={{
                             borderColor: COLORS.grey,
                             borderBottomColor: COLORS.grey
                         }}
-                        onValueChange={NewDeviceType=>setDeviceType(NewDeviceType)}
                         dropdownItemStyles={{marginBottom:10}}
                         dropdownTextStyles={{borderBottomColor: COLORS.grey}}
                     />
@@ -160,16 +180,15 @@ const AddDevice = ({ navigation }) => {
                     }}>Add to</Text>
                     
                     <SelectList                    
-                        setSelected={setSelected} 
+                        setSelected={val => setAddto(val)} 
                         data={room1}   
                         search={false} 
                         boxStyles={{borderRadius:10, borderColor: COLORS.grey, height: 52,}} //override default styles
-                        defaultOption={{ key:'1', value:'LIVING ROOM' }}   //default selected option
+                        // defaultOption={{ key:'1', value:'Living Room' }}   //default selected option
                         dropdownStyles={{
                             borderColor: COLORS.grey,
                             borderBottomColor: COLORS.grey
                         }}
-                        onValueChange={NewAddto=>setAddto(NewAddto)}
                         dropdownItemStyles={{marginBottom:10}}
                         dropdownTextStyles={{borderBottomColor: COLORS.grey}}
                     />

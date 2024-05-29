@@ -1,5 +1,5 @@
 import { View, Text, Image, Pressable, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import COLORS from '../constants/colors';
@@ -9,23 +9,59 @@ import { MaterialCommunityIcons, SimpleLineIcons } from '@expo/vector-icons';
 import Checkbox from "expo-checkbox"
 import Button from '../components/Button';
 import { SelectList } from 'react-native-dropdown-select-list'
+import axios from 'axios';
+import AuthContext from '../authContext';
+import { url } from './url';
+
+// axios.defaults.withCredentials = true;
+const fakeData = [
+    {
+        id: 1,
+        name: 'Temperature',
+        lowerThreshold: 10,
+        upperThreshold: 20,
+    },
+    {
+        id: 2,
+        name: 'Humidity',
+        lowerThreshold: 30,
+        upperThreshold: 40,
+    }
+]
 
 
 const Sensor = ({ navigation }) => {
+    const [sensors, setSensors] = useState(fakeData);
+    const { token } = useContext(AuthContext);
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+    const handleSave = async () => {
+        await axios.put(`${url}/api/sensors/${sensors[0].id}`, {
+            lowerThreshold: sensors[0].lowerThreshold,
+            upperThreshold: sensors[0].upperThreshold,
+        }, config);
 
-    const [selected, setSelected] = React.useState("");
-  
-    const data = [
-        {key:'1',value:'Living Room'},
-        {key:'2',value:'Bedroom'},
-        {key:'3',value:'Kitchen'},
-        {key:'4',value:'Bathroom'},
-    ];
+        await axios.put(`${url}/api/sensors/${sensors[1].id}`, {
+            lowerThreshold: sensors[1].lowerThreshold,
+            upperThreshold: sensors[1].upperThreshold,
+        }, config);
 
-    const data1 = [
-        {key:'1',value:'Fan'},
-        {key:'2',value:'Light'},
-    ];
+        navigation.navigate('Home');
+    }
+    useEffect(() => {
+        const fetchSensor = async () => {
+            try {
+                const res = await axios.get(`${url}/api/sensors`, config);
+                // setSensors(res.data);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        fetchSensor();
+    }, [])
 
     return(
         <LinearGradient
@@ -55,174 +91,93 @@ const Sensor = ({ navigation }) => {
             
             <View style={styles.inputsContainer}>
 
-                <View style={{ marginBottom: 12 }}>
-                    <Text style={{
-                        fontSize: 16,
-                        fontWeight: 400,
-                        color: 'black',
-                        marginVertical: 8,
-                        marginTop:20,
-                        marginBottom:20,
-                        fontWeight: 'bold'
-                    }}>TEMPERATURE SENSOR</Text>
+                {sensors.map((sensor, index) => {
+                    return (
+                        <View style={{ marginBottom: 12 }} key={index}>
+                            <Text style={{
+                                fontSize: 16,
+                                fontWeight: 400,
+                                color: 'black',
+                                marginVertical: 8,
+                                marginTop:20,
+                                marginBottom:20,
+                                fontWeight: 'bold'
+                            }}>{sensor.name.toUpperCase()} SENSOR</Text>
 
-                    <View style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-around',
-                    }}>
-                    <Text style={{
-                        fontSize: 16,
-                        fontWeight: 400,
-                        color: 'black',
-                        marginVertical: 8
-                    }}>Lower Threshold: </Text>
-                    <View style={{
-                        width: "50%",
-                        height: 48,
-                        borderColor: COLORS.black,
-                        borderWidth: 1,
-                        borderRadius: 8,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        paddingLeft: 22,
-                        marginBottom:10
-                    }}>
-                        
-                        <TextInput
-                            placeholder='50'
-                            placeholderTextColor={COLORS.black}
-                            keyboardType='numeric'
-                            style={{
-                                width: "100%"
-                            }}
-                            defaultValue={50}
-                            //onChangeText={NewuName=>setuName(NewuName)}
-                            
-                        />
-                    </View>
-                    </View>
-                    <View style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-around',
-                    }}>
-                    <Text style={{
-                        fontSize: 16,
-                        fontWeight: 400,
-                        color: 'black',
-                        marginVertical: 8
-                    }}>Upper Threshold: </Text>
-                    <View style={{
-                        width: "50%",
-                        height: 48,
-                        borderColor: COLORS.black,
-                        borderWidth: 1,
-                        borderRadius: 8,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        paddingLeft: 22,
-                        marginBottom:10
-                    }}>
-                        
-                        <TextInput
-                            placeholder='50'
-                            placeholderTextColor={COLORS.black}
-                            keyboardType='numeric'
-                            style={{
-                                width: "100%"
-                            }}
-                            defaultValue={50}
-                            //onChangeText={NewuName=>setuName(NewuName)}
-                            
-                        />
-                    </View>
-                    </View>
-                </View>
+                            <View style={{
+                                flexDirection: 'row',
+                                justifyContent: 'space-around',
+                            }}>
+                                <Text style={{
+                                    fontSize: 16,
+                                    fontWeight: 400,
+                                    color: 'black',
+                                    marginVertical: 8
+                                }}>Lower Threshold: </Text>
+                                <View style={{
+                                    width: "50%",
+                                    height: 48,
+                                    borderColor: COLORS.black,
+                                    borderWidth: 1,
+                                    borderRadius: 8,
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    paddingLeft: 22,
+                                    marginBottom:10
+                                }}>
+                                    <TextInput
+                                        placeholder={sensor.lowerThreshold}
+                                        placeholderTextColor={COLORS.black}
+                                        keyboardType='numeric'
+                                        style={{
+                                            width: "100%"
+                                        }}
+                                        defaultValue={sensor.lowerThreshold}
+                                        onChangeText={(text) => {
+                                            sensors[index].lowerThreshold = text;
+                                        }}
+                                    />
+                                </View>
+                            </View>
+                            <View style={{
+                                flexDirection: 'row',
+                                justifyContent: 'space-around',
+                            }}>
+                                <Text style={{
+                                    fontSize: 16,
+                                    fontWeight: 400,
+                                    color: 'black',
+                                    marginVertical: 8
+                                }}>Upper Threshold: </Text>
+                                <View style={{
+                                    width: "50%",
+                                    height: 48,
+                                    borderColor: COLORS.black,
+                                    borderWidth: 1,
+                                    borderRadius: 8,
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    paddingLeft: 22,
+                                    marginBottom:10
+                                }}>
+                                    <TextInput
+                                        placeholder={sensor.upperThreshold}
+                                        placeholderTextColor={COLORS.black}
+                                        keyboardType='numeric'
+                                        style={{
+                                            width: "100%"
+                                        }}
+                                        defaultValue={sensor.upperThreshold}
+                                        onChangeText={(text) => {
+                                            sensors[index].upperThreshold = text;
+                                        }}
+                                    />
+                                </View>
+                            </View>
+                        </View>
+                    )
+                })}
 
-
-                <View style={{ marginBottom: 12 }}>
-                    <Text style={{
-                        fontSize: 16,
-                        fontWeight: 400,
-                        color: 'black',
-                        marginVertical: 8,
-                        marginTop:20,
-                        marginBottom:20,
-                        fontWeight: 'bold'
-                    }}>HUMIDITY SENSOR</Text>
-
-                    <View style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-around',
-                    }}>
-                    <Text style={{
-                        fontSize: 16,
-                        fontWeight: 400,
-                        color: 'black',
-                        marginVertical: 8
-                    }}>Lower Threshold: </Text>
-                    <View style={{
-                        width: "50%",
-                        height: 48,
-                        borderColor: COLORS.black,
-                        borderWidth: 1,
-                        borderRadius: 8,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        paddingLeft: 22,
-                        marginBottom:10
-                    }}>
-                        
-                        <TextInput
-                            placeholder='50'
-                            placeholderTextColor={COLORS.black}
-                            keyboardType='numeric'
-                            style={{
-                                width: "100%"
-                            }}
-                            defaultValue={50}
-                            //onChangeText={NewuName=>setuName(NewuName)}
-                            
-                        />
-                    </View>
-                    </View>
-                    <View style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-around',
-                    }}>
-                    <Text style={{
-                        fontSize: 16,
-                        fontWeight: 400,
-                        color: 'black',
-                        marginVertical: 8
-                    }}>Upper Threshold: </Text>
-                    <View style={{
-                        width: "50%",
-                        height: 48,
-                        borderColor: COLORS.black,
-                        borderWidth: 1,
-                        borderRadius: 8,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        paddingLeft: 22,
-                        marginBottom:10
-                    }}>
-                        
-                        <TextInput
-                            placeholder='50'
-                            placeholderTextColor={COLORS.black}
-                            keyboardType='numeric'
-                            style={{
-                                width: "100%"
-                            }}
-                            defaultValue={50}
-                            //onChangeText={NewuName=>setuName(NewuName)}
-                            
-                        />
-                    </View>
-                    </View>
-                </View> 
-
-                
                     <LinearGradient
                         colors={["#00c6fb", "#3381ff"]}
                         start={{ x: 0, y: 0 }}
@@ -231,6 +186,7 @@ const Sensor = ({ navigation }) => {
                     >
                         <TouchableOpacity
                             style={styles.button1}
+                            onPress={handleSave}
                         >
                             <Text style={styles.buttonText1}>SAVE</Text>
                         </TouchableOpacity>

@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { AddDevice, Login, Signup, Welcome, Home, Room, AccountSetting, DeviceSetting, AddRoom, Notification, Sensor } from "./screens";
 
 import { createDrawerNavigator } from '@react-navigation/drawer';
-
+import { AuthProvider } from './authContext';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -14,10 +14,10 @@ const MyDrawer = () => {
     <Drawer.Navigator initialRouteName="Home" 
     screenOptions={{headerShown: false}} >
       <Drawer.Screen name="Home" component={Home} />
+      <Drawer.Screen name="Add Room" component={AddRoom} />
       <Drawer.Screen name="Add Device" component={AddDevice} />
-      <Drawer.Screen name="Account Setting" component={AccountSetting} />
-      
       <Drawer.Screen name="Sensor Setting" component={Sensor} />
+      <Drawer.Screen name="Account Setting" component={AccountSetting} />
       <Drawer.Screen name="Log out" component={Login} />
     </Drawer.Navigator>
   );
@@ -26,6 +26,7 @@ const MyDrawer = () => {
 export default function App() {
   
   return (
+    <AuthProvider>
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName='Welcome'
@@ -72,13 +73,7 @@ export default function App() {
             headerShown: false
           }}
         />
-        <Stack.Screen
-          name="AddRoom"
-          component={AddRoom}
-          options={{
-            headerShown: false
-          }}
-        />
+
         <Stack.Screen
           name="Notification"
           component={Notification}
@@ -88,5 +83,6 @@ export default function App() {
         />
       </Stack.Navigator>
     </NavigationContainer>
+    </AuthProvider>
   );
 }
