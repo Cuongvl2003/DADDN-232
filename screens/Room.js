@@ -93,7 +93,7 @@ const Room = ({ route, navigation }) => {
                             fontSize:30,
                             marginTop:15,
                             justifyContent: "center",
-                        color:"white"}}> {roomName}</Text>
+                        color:"white"}}> {RoomName}</Text>
                 </View>
 
                 <View> 
@@ -230,17 +230,5 @@ const styles=StyleSheet.create({
         width:100,
         marginLeft:30,
         marginRight:30,
-    },
-    container4:{
-        flex: 1,
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'space-around',
-        backgroundColor:'white',
-        borderColor: 'white',
-        borderRadius:10,
-        borderWidth:2,
-        marginLeft:30,
-        marginRight:30
     },
 });
