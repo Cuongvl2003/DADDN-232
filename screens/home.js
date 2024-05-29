@@ -8,8 +8,6 @@ import { LineChart } from 'react-native-chart-kit';
 import axios from 'axios';
 import { url } from './url';
 import Modal from "react-native-modal";
-<<<<<<< HEAD
-=======
 
 import { DatePickerModal, en, registerTranslation } from 'react-native-paper-dates';
 import DateTimePicker from "react-native-modal-datetime-picker";
@@ -46,7 +44,6 @@ const Home = ({ route, navigation }) => {
             "2024-05-28T04:00:00Z",
             "0"
         ]],
->>>>>>> a7a11cedebe4283b6a84af644d743032267416ff
 
         humidity: [[
             "2024-05-28T04:00:00Z",
@@ -83,15 +80,10 @@ const Home = ({ route, navigation }) => {
     const [temperature, setTemperature] = useState(0);
     const [hasNotification, setHasNotification] = useState(false);
     const [showNotificationModal, setShowNotificationModal] = useState(false);
-<<<<<<< HEAD
-    let now=new Date().getHours();       
-
-=======
     const [notification, setNotification] = useState('');
     const [dataStory, setDataStory] = useState(defaultData)
     const [isVisible, setIsVisible] = useState(false);
     const [date, setDate] = useState(new Date());
->>>>>>> a7a11cedebe4283b6a84af644d743032267416ff
     
     const { token, user } = useContext(AuthContext);
     const config = {
@@ -368,8 +360,6 @@ const Home = ({ route, navigation }) => {
                         alignItems: 'center',
                         }}>
 
-<<<<<<< HEAD
-=======
                     <View style={{
                         width:200,
                         height:100,
@@ -406,7 +396,6 @@ const Home = ({ route, navigation }) => {
                         <Button title="Chọn ngày" onPress={() => setIsVisible(true)} />
                     </View>
 
->>>>>>> a7a11cedebe4283b6a84af644d743032267416ff
                         <Text style={{
                             textAlign: 'center',
                             fontWeight: 'bold',
