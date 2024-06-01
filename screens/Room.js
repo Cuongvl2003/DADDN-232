@@ -93,7 +93,7 @@ const Room = ({ route, navigation }) => {
                             fontSize:30,
                             marginTop:15,
                             justifyContent: "center",
-                        color:"white"}}> {RoomName}</Text>
+                        color:"white"}}> {roomName}</Text>
                 </View>
 
                 <View> 

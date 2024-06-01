@@ -4,6 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import COLORS from '../constants/colors';
 import { LinearGradient } from "expo-linear-gradient";
 import { MaterialCommunityIcons, SimpleLineIcons } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 import { LineChart } from 'react-native-chart-kit';
 import axios from 'axios';
 import { url } from './url';
@@ -18,60 +19,60 @@ const Home = ({ route, navigation }) => {
     const defaultData = {
         temperature: [[
             "2024-05-28T04:00:00Z",
-            "0"
+            "30"
         ],
         [
             "2024-05-28T12:00:00Z",
-            "0"
+            "32"
         ],
         [
             "2024-05-28T04:00:00Z",
-            "0"
+            "34"
         ],
         [
             "2024-05-28T12:00:00Z",
-            "0"
+            "36"
         ],
         [
             "2024-05-28T04:00:00Z",
-            "0"
+            "34"
         ],
         [
             "2024-05-28T12:00:00Z",
-            "0"
+            "32"
         ],
         [
             "2024-05-28T04:00:00Z",
-            "0"
+            "30"
         ]],
 
         humidity: [[
             "2024-05-28T04:00:00Z",
-            "0"
+            "70"
         ],
         [
             "2024-05-28T12:00:00Z",
-            "0"
+            "72"
         ],
         [
             "2024-05-28T04:00:00Z",
-            "0"
+            "74"
         ],
         [
             "2024-05-28T12:00:00Z",
-            "0"
+            "76"
         ],
         [
             "2024-05-28T04:00:00Z",
-            "0"
+            "74"
         ],
         [
             "2024-05-28T12:00:00Z",
-            "0"
+            "72"
         ],
         [
             "2024-05-28T04:00:00Z",
-            "0"
+            "70"
         ]],
     }
 
@@ -84,7 +85,8 @@ const Home = ({ route, navigation }) => {
     const [dataStory, setDataStory] = useState(defaultData)
     const [isVisible, setIsVisible] = useState(false);
     const [date, setDate] = useState(new Date());
-    
+    const [timeTemp ,setTimeTemp] = useState([]);
+    const [timeHumid ,setTimeHumid] = useState([]);
     const { token, user } = useContext(AuthContext);
     const config = {
         headers: {
@@ -92,35 +94,62 @@ const Home = ({ route, navigation }) => {
         },
     }
 
-    const handleConfirm = async (date) => {
-        setIsVisible(false);
-        setDate(date);
+    const fetchSensor = async (date) => {
         const sensorData = await axios.get(`${url}/api/sensors/data`, {
             params: {
                 date: date.toLocaleDateString(),
             },
             ...config
         });
-        if(sensorData.data.temperature.length !== 0 && sensorData.data.humidity.length !== 0)
+        console.log(date.getDate());
+        if(sensorData.data.temperature.length !== 0 && sensorData.data.humidity.length !== 0) {
+            const now = new Date().getHours();
+            if(date.getDate() != new Date().getDate()) {
+                setTimeHumid([0, 4, 8, 12, 16, 20, 24])
+                setTimeTemp([0, 4, 8, 12, 16, 20, 24])
+                if(sensorData.data.temperature.length > 7) {
+                    sensorData.data.temperature = sensorData.data.temperature.slice(sensorData.data.temperature.length - 7);
+                }
+                if(sensorData.data.humidity.length > 7) {
+                    sensorData.data.humidity = sensorData.data.humidity.slice(sensorData.data.humidity.length - 7);
+                }
+            } else {
+                const timeTemp = []
+                const timeHumid = []
+                for(let i = sensorData.data.temperature.length - 1; i >= 0 ; i--) {
+                    timeTemp.push(now - i*1);
+                }
+                for(let i = sensorData.data.humidity.length - 1; i >= 0 ; i--) {
+                    timeHumid.push(now - i*1);
+                }
+                setTimeTemp(timeTemp);
+                setTimeHumid(timeHumid);
+            }
             setDataStory(sensorData.data);
-        else setDataStory(defaultData);
+        }
+        else {
+            setDataStory(defaultData)
+            setTimeHumid([0, 4, 8, 12, 16, 20, 24])
+            setTimeTemp([0, 4, 8, 12, 16, 20, 24])
+        };
+    }
+
+
+    const handleConfirm = async (date) => {
+        setIsVisible(false);
+        setDate(date);
+        fetchSensor(date);
     }
 
     useEffect(()=>{
+        fetchSensor(new Date());
         const fetchRoom = async() => {
             const res = await axios.get(`${url}/api/rooms`, config);
             setRooms(res.data)
-            const sensorData = await axios.get(`${url}/api/sensors/data`, {
-                params: {
-                    date: date.toLocaleDateString(),
-                },
-                ...config
-            });
-            if(sensorData.data.temperature.length !== 0 && sensorData.data.humidity.length !== 0)
-                setDataStory(sensorData.data);
-            else setDataStory(defaultData);
         }
-        fetchRoom()
+
+        fetchRoom();
+
 
         // const getSensorData = () => {
             const eventSource1 = new EventSource(`${url}/api/sensors/current`, {...config, lineEndingCharacter: '\n'});      
@@ -248,7 +277,8 @@ const Home = ({ route, navigation }) => {
                                 height: 60,
                                 alignItems: 'center',
                             }}>
-                                <MaterialCommunityIcons name="weather-cloudy" size={30} color="white" />
+                                { /*<MaterialCommunityIcons name="weather-cloudy" size={30} color="white" /> */ }
+                                <FontAwesome5 name="cloud-sun" size={30} color="white" />
                                 <Text style={{
                                     fontWeight: 'bold',
                                     color:COLORS.white,
@@ -365,7 +395,7 @@ const Home = ({ route, navigation }) => {
                         backgroundColor: 'white',
                         justifyContent: 'space-around',
                         alignItems: 'center',
-                        marginTop: 10,
+                        marginTop: 30,
                         borderRadius: 10,
                         marginBottom: 10,
                     }}>
@@ -392,7 +422,7 @@ const Home = ({ route, navigation }) => {
                         }}>
                             Date: {date.toLocaleDateString()}
                         </Text>
-                        <Button title="Chọn ngày" onPress={() => setIsVisible(true)} />
+                        <Button title="Select day" onPress={() => setIsVisible(true)} />
                     </View>
 
                         <Text style={{
@@ -403,7 +433,7 @@ const Home = ({ route, navigation }) => {
                         }}>HUMIDITY (%)</Text>
                         <LineChart
                             data={{
-                                labels: [now-12, now-10, now-8, now-6, now-4, now-2, now],
+                                labels: timeHumid,
                                 datasets: [
                                 {
                                 data: dataStory.humidity.map(item => parseFloat(item[1])),},],
@@ -411,6 +441,7 @@ const Home = ({ route, navigation }) => {
                             width={Dimensions.get('window').width - 16} // from react-native
                             height={220}
                             xAxisLabel={':00'}
+                            yAxisSuffix='%'
                             chartConfig={{
                                 backgroundColor: '#1cc910',
                                 backgroundGradientFrom: '#eff3ff',
@@ -438,7 +469,7 @@ const Home = ({ route, navigation }) => {
                         }}>TEMPERATURE (℃)</Text>
                         <LineChart
                             data={{
-                                labels: [now-12, now-10, now-8, now-6, now-4, now-2, now],
+                                labels: timeTemp,
                                 datasets: [
                                 {
                                 data: dataStory.temperature.map(item => parseFloat(item[1])),},],
@@ -446,6 +477,7 @@ const Home = ({ route, navigation }) => {
                             width={Dimensions.get('window').width - 16} // from react-native
                             height={220}
                             xAxisLabel={':00'}
+                            yAxisSuffix='℃'
                             chartConfig={{
                                 backgroundColor: '#1cc910',
                                 backgroundGradientFrom: '#eff3ff',

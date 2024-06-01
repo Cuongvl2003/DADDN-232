@@ -14,24 +14,9 @@ import AuthContext from '../authContext';
 import { url } from './url';
 
 // axios.defaults.withCredentials = true;
-const fakeData = [
-    {
-        id: 1,
-        name: 'Temperature',
-        lowerThreshold: 10,
-        upperThreshold: 20,
-    },
-    {
-        id: 2,
-        name: 'Humidity',
-        lowerThreshold: 30,
-        upperThreshold: 40,
-    }
-]
-
 
 const Sensor = ({ navigation }) => {
-    const [sensors, setSensors] = useState(fakeData);
+    const [sensors, setSensors] = useState([]);
     const { token } = useContext(AuthContext);
     const config = {
         headers: {
@@ -55,7 +40,7 @@ const Sensor = ({ navigation }) => {
         const fetchSensor = async () => {
             try {
                 const res = await axios.get(`${url}/api/sensors`, config);
-                // setSensors(res.data);
+                setSensors(res.data);
             } catch (error) {
                 console.log(error);
             }
@@ -76,7 +61,7 @@ const Sensor = ({ navigation }) => {
                         justifyContent: 'center',
                     }}>
                         <TouchableOpacity 
-                            onPress={()=>navigation.openDrawer()}>
+                            onPressIn={()=>navigation.openDrawer()}>
                             <SimpleLineIcons name="menu" size={30} color="white" 
                                 style={{
                                     marginTop: 10,
@@ -90,7 +75,7 @@ const Sensor = ({ navigation }) => {
                 </View>
             
             <View style={styles.inputsContainer}>
-
+                                
                 {sensors.map((sensor, index) => {
                     return (
                         <View style={{ marginBottom: 12 }} key={index}>
@@ -104,7 +89,7 @@ const Sensor = ({ navigation }) => {
                                 fontWeight: 'bold'
                             }}>{sensor.name.toUpperCase()} SENSOR</Text>
 
-                            <View style={{
+<View style={{
                                 flexDirection: 'row',
                                 justifyContent: 'space-around',
                             }}>
@@ -126,19 +111,26 @@ const Sensor = ({ navigation }) => {
                                     marginBottom:10
                                 }}>
                                     <TextInput
-                                        placeholder={sensor.lowerThreshold}
+                                        // placeholder={sensor.lowerThreshold}
                                         placeholderTextColor={COLORS.black}
                                         keyboardType='numeric'
                                         style={{
                                             width: "100%"
                                         }}
+                                        value={sensor.lowerThreshold.toString()}
                                         defaultValue={sensor.lowerThreshold}
                                         onChangeText={(text) => {
-                                            sensors[index].lowerThreshold = text;
+                                            setSensors((prev) => {
+                                                const newSensors = [...prev];
+                                                newSensors[index].lowerThreshold = text;
+                                                return newSensors;
+                                            });
                                         }}
                                     />
                                 </View>
                             </View>
+
+
                             <View style={{
                                 flexDirection: 'row',
                                 justifyContent: 'space-around',
@@ -161,15 +153,20 @@ const Sensor = ({ navigation }) => {
                                     marginBottom:10
                                 }}>
                                     <TextInput
-                                        placeholder={sensor.upperThreshold}
-                                        placeholderTextColor={COLORS.black}
+                                        // placeholder={sensor.upperThreshold}
+                                        // placeholderTextColor={COLORS.black}
                                         keyboardType='numeric'
                                         style={{
                                             width: "100%"
                                         }}
+                                        value={sensor.upperThreshold.toString()}
                                         defaultValue={sensor.upperThreshold}
                                         onChangeText={(text) => {
-                                            sensors[index].upperThreshold = text;
+                                            setSensors((prev) => {
+                                                const newSensors = [...prev];
+                                                newSensors[index].upperThreshold = text;
+                                                return newSensors;
+                                            });
                                         }}
                                     />
                                 </View>

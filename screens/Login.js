@@ -13,8 +13,8 @@ const Login = ({ navigation }) => {
     const { setToken, setUser } = useContext(AuthContext);
     const [isPasswordShown, setIsPasswordShown] = useState(true);
     const [isChecked, setIsChecked] = useState(false);
-    const [uName,setuName] = useState('tungle');
-    const [uPass,setuPass] = useState('123456');
+    const [uName,setuName] = useState('');
+    const [uPass,setuPass] = useState('');
     const [uFullname,setuFullname] = useState('');
     const [uEmail,setuEmail] = useState('');
     const [uNum,setuNum] = useState('');
