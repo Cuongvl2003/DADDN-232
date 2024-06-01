@@ -186,7 +186,7 @@ const Home = ({ navigation }) => {
                                 {rooms.map((room, index) => (
                                     <TouchableOpacity
                                         key={index}
-                                        onPress={()=>navigation.navigate("Room")}
+                                        onPress={()=>navigation.navigate("Room",{name:room.name})}
                                         style={{
                                             backgroundColor: COLORS.white,
                                             width: 150,
