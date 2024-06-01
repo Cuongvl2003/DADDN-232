@@ -378,6 +378,7 @@ const Home = ({ route, navigation }) => {
                                     }}>
                                         Device: {room.deviceCount}
                                     </Text>
+                                    
                                     </TouchableOpacity>
       ))}
                             </View>
