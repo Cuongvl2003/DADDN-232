@@ -1,5 +1,5 @@
 import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet, Dimensions, Button } from 'react-native'
-import React,{useState, useEffect} from 'react'
+import React,{useState, useEffect, useContext} from 'react'
 import { SafeAreaView } from "react-native-safe-area-context";
 import COLORS from '../constants/colors';
 import { LinearGradient } from "expo-linear-gradient";
@@ -8,44 +8,168 @@ import { LineChart } from 'react-native-chart-kit';
 import axios from 'axios';
 import { url } from './url';
 import Modal from "react-native-modal";
+
+import { DatePickerModal, en, registerTranslation } from 'react-native-paper-dates';
 import DateTimePicker from "react-native-modal-datetime-picker";
+import EventSource from 'react-native-sse';
+import AuthContext from '../authContext';
+registerTranslation('en', en);
+const Home = ({ route, navigation }) => {
+    const defaultData = {
+        temperature: [[
+            "2024-05-28T04:00:00Z",
+            "0"
+        ],
+        [
+            "2024-05-28T12:00:00Z",
+            "0"
+        ],
+        [
+            "2024-05-28T04:00:00Z",
+            "0"
+        ],
+        [
+            "2024-05-28T12:00:00Z",
+            "0"
+        ],
+        [
+            "2024-05-28T04:00:00Z",
+            "0"
+        ],
+        [
+            "2024-05-28T12:00:00Z",
+            "0"
+        ],
+        [
+            "2024-05-28T04:00:00Z",
+            "0"
+        ]],
 
-const Home = ({ navigation }) => {
+        humidity: [[
+            "2024-05-28T04:00:00Z",
+            "0"
+        ],
+        [
+            "2024-05-28T12:00:00Z",
+            "0"
+        ],
+        [
+            "2024-05-28T04:00:00Z",
+            "0"
+        ],
+        [
+            "2024-05-28T12:00:00Z",
+            "0"
+        ],
+        [
+            "2024-05-28T04:00:00Z",
+            "0"
+        ],
+        [
+            "2024-05-28T12:00:00Z",
+            "0"
+        ],
+        [
+            "2024-05-28T04:00:00Z",
+            "0"
+        ]],
+    }
 
-    // const [rooms, setRooms]=useState([]);
-    // useEffect( ()=>{
-    //     const fetchRoom = async() => {
-    //         const res = await axios.get(`${url}api/rooms`);
-    //         console.log(res);
-    //         setRooms(res.data)
-    //     }
-    //     fetchRoom()
-    // }, [])
-    const rooms = [
-        { name: 'LIVING ROOM', devices: 5 },
-        { name: 'BEDROOM', devices: 6  },
-        { name: 'BATHROOM', devices: 4},
-        { name: 'KITCHEN', devices: 5},
-        { name: 'GARDEN', devices: 3},
-      ];
-    const UserName='Master';
-    const [notificationsCount, setNotificationsCount] = useState(0);
+    const [rooms, setRooms]=useState([]);
+    const [humidity, setHumidity] = useState(0);
+    const [temperature, setTemperature] = useState(0);
+    const [hasNotification, setHasNotification] = useState(false);
     const [showNotificationModal, setShowNotificationModal] = useState(false);
+    const [notification, setNotification] = useState('');
+    const [dataStory, setDataStory] = useState(defaultData)
     const [isVisible, setIsVisible] = useState(false);
     const [date, setDate] = useState(new Date());
-    let now=new Date().getHours();       
-
     
-    const handleNotificationPress = () => {
-        setNotificationsCount(0);
-        navigation.navigate("Notification");
-    };
+    const { token, user } = useContext(AuthContext);
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+
+    const handleConfirm = async (date) => {
+        setIsVisible(false);
+        setDate(date);
+        const sensorData = await axios.get(`${url}/api/sensors/data`, {
+            params: {
+                date: date.toLocaleDateString(),
+            },
+            ...config
+        });
+        if(sensorData.data.temperature.length !== 0 && sensorData.data.humidity.length !== 0)
+            setDataStory(sensorData.data);
+        else setDataStory(defaultData);
+    }
+
+    useEffect(()=>{
+        const fetchRoom = async() => {
+            const res = await axios.get(`${url}/api/rooms`, config);
+            setRooms(res.data)
+            const sensorData = await axios.get(`${url}/api/sensors/data`, {
+                params: {
+                    date: date.toLocaleDateString(),
+                },
+                ...config
+            });
+            if(sensorData.data.temperature.length !== 0 && sensorData.data.humidity.length !== 0)
+                setDataStory(sensorData.data);
+            else setDataStory(defaultData);
+        }
+        fetchRoom()
+
+        // const getSensorData = () => {
+            const eventSource1 = new EventSource(`${url}/api/sensors/current`, {...config, lineEndingCharacter: '\n'});      
+            eventSource1.addEventListener("message", (event) => {
+                const data = JSON.parse(event.data);
+                setHumidity(parseFloat(data.humidity).toFixed(1));
+                setTemperature(parseFloat(data.temperature).toFixed(1));
+            });
+        // }
+        // getSensorData();
+
+        // const getNotifications = async () => {
+            const eventSource2 = new EventSource(`${url}/api/logs/stream`, {...config, lineEndingCharacter: '\n'});
+            eventSource2.addEventListener("message", (event) => {
+                const data = JSON.parse(event.data);
+                setNotification(data.message);
+                setHasNotification(true);
+                setShowNotificationModal(true);
+            });
+        // }
+        // getNotifications();
+
+    }, [])
+
+    const hasNewRoom = route.params?.hasNewRoom;
 
     useEffect(() => {
-        if (notificationsCount > 0) {
-            setShowNotificationModal(true);
+        if (hasNewRoom) {
+            setRooms([...rooms, hasNewRoom])
         }
-    }, [notificationsCount]);
+    }, [hasNewRoom])
+    
+    const hasNewDeviceInRoom = route.params?.hasNewDevice;
+    useEffect(() => {
+        if (hasNewDeviceInRoom) {
+            const fetchRoom = async() => {
+                const res = await axios.get(`${url}/api/rooms`, config);
+                setRooms(res.data)
+            }
+            fetchRoom()
+        }
+    }, [hasNewDeviceInRoom])
+
+    let now=new Date().getHours();       
+
+    const handleNotificationPress = () => {
+        setHasNotification(false);
+        navigation.navigate("Notification");
+    };
 
     return (
         <LinearGradient
@@ -71,11 +195,11 @@ const Home = ({ navigation }) => {
                                 }}/>
                         </TouchableOpacity>
                         <Text style={{
-                            fontSize:24,
+                            fontSize:30,
                             
                         color:"white"}}> Home</Text>
                         <TouchableOpacity onPress={handleNotificationPress}>
-                            {notificationsCount ? (
+                            {hasNotification ? (
                                 <MaterialCommunityIcons name="bell-alert" size={32} color="#DC143C" />
                             ) : (
                                 <MaterialCommunityIcons name="bell" size={32} color="white" />
@@ -84,18 +208,22 @@ const Home = ({ navigation }) => {
                         <Modal isVisible={showNotificationModal}>
                             <View style={{ 
                                 backgroundColor: 'white',
-                                width: 300,
-                                height: 150,
+                                width: 320,
+                                height: 160,
                                 alignItems: 'center', 
-                                justifyContent: 'center' }}>
+                                justifyContent: 'center',
+                                borderRadius: 20,
+                                margin: 'auto',
+                                }}>
                                 <Text style={{
                                     fontWeight: 'bold',
+                                    color: 'red',
                                     fontSize: 25,
                                     marginBottom: 20,
                                 }}>
-                                    Bạn có {notificationsCount} cảnh báo mới
+                                    {notification}
                                 </Text>
-                                <Button title="Đóng" onPress={() => setShowNotificationModal(false)} />
+                                <Button title="Close" onPress={() => setShowNotificationModal(false)} />
                             </View>
                         </Modal>
                     </View>
@@ -108,7 +236,7 @@ const Home = ({ navigation }) => {
                             marginLeft: 40,
                             marginTop:20
                         }}>
-                            Hello, {UserName}!
+                            Hello, {user}!
                         </Text>
                         <View style={{
                             flexDirection: 'row',
@@ -138,7 +266,7 @@ const Home = ({ navigation }) => {
                                     fontSize: 20,
                                     color:COLORS.white,
                                 }}>
-                                    30℃
+                                    {temperature}°C
                                 </Text>
                                 <Text style={{
                                     fontWeight: 'bold',
@@ -158,7 +286,7 @@ const Home = ({ navigation }) => {
                                     fontSize: 20,
                                     color:COLORS.white,
                                 }}>
-                                    56%
+                                    {humidity}%
                                 </Text>
                                 <Text style={{
                                     fontWeight: 'bold',
@@ -178,19 +306,26 @@ const Home = ({ navigation }) => {
                             <View style={{
                                 flexDirection: 'row',
                                 flexWrap: 'wrap',
-                                justifyContent: 'space-around',
+                                // justifyContent: 'space-evenly',
                                 alignItems: 'center',
                                 marginVertical: 5,
+                                marginLeft: 8,
                             }}>
 
                                 {rooms.map((room, index) => (
                                     <TouchableOpacity
                                         key={index}
-                                        onPress={()=>navigation.navigate("Room",{name:room.name})}
+                                        onPress={()=>{
+                                            navigation.navigate("Room",
+                                            {
+                                                roomId: room.id,
+                                                roomName: room.name,
+                                            })
+                                        }}
                                         style={{
                                             backgroundColor: COLORS.white,
-                                            width: 150,
-                                            height: 65,
+                                            width: "40%",
+                                            height: 70,
                                             borderRadius: 10,
                                             marginHorizontal: 1,
                                             marginBottom:20,
@@ -200,19 +335,20 @@ const Home = ({ navigation }) => {
                                     <Text style={{
                                         textAlign: 'center',
                                         fontWeight: 'bold',
-                                        fontSize: 15,
+                                        fontSize: 20,
                                         marginTop: 5,
                                     }}>
                                         {room.name}
                                     </Text>
                                     <Text style={{
                                         textAlign: 'center',
-                                        fontWeight: 'bold',
-                                        fontSize: 11,
+                                        fontWeight: 'normal',
+                                        fontSize: 16,
                                         marginTop: 5,
                                     }}>
                                         Device: {room.deviceCount}
                                     </Text>
+                                    
                                     </TouchableOpacity>
       ))}
                             </View>
@@ -231,15 +367,21 @@ const Home = ({ navigation }) => {
                         justifyContent: 'space-around',
                         alignItems: 'center',
                         marginTop: 10,
-                        borderRadius: 20,
+                        borderRadius: 10,
+                        marginBottom: 10,
                     }}>
+                        {/* <DatePickerModal
+                            locale="en"
+                            mode="single"
+                            visible={isVisible}
+                            onDismiss={() => setIsVisible(false)}
+                            date={date
+                            onConfirm={handleConfirm}
+                        /> */}
                         <DateTimePicker
                             isVisible={isVisible}
                             mode="date"
-                            onConfirm={(selectedDate) => {
-                            setIsVisible(false);
-                            setDate(selectedDate);
-                            }}
+                            onConfirm={handleConfirm}
                             onCancel={() => setIsVisible(false)}
                             minimumDate={new Date(Date.now() - 3600 * 1000 * 24 * 30)}
                             maximumDate={new Date()}
@@ -249,7 +391,7 @@ const Home = ({ navigation }) => {
                             fontWeight: 'bold',
                             fontSize: 20,
                         }}>
-                            {date.toLocaleDateString()}
+                            Date: {date.toLocaleDateString()}
                         </Text>
                         <Button title="Chọn ngày" onPress={() => setIsVisible(true)} />
                     </View>
@@ -265,15 +407,7 @@ const Home = ({ navigation }) => {
                                 labels: [now-12, now-10, now-8, now-6, now-4, now-2, now],
                                 datasets: [
                                 {
-                                data: [
-                                    Math.random() * 100,
-                                    Math.random() * 100,
-                                    Math.random() * 100,
-                                    Math.random() * 100,
-                                    Math.random() * 100,
-                                    Math.random() * 100,
-                                    Math.random() * 100,
-                                ],},],
+                                data: dataStory.humidity.map(item => parseFloat(item[1])),},],
                             }}
                             width={Dimensions.get('window').width - 16} // from react-native
                             height={220}
@@ -308,15 +442,7 @@ const Home = ({ navigation }) => {
                                 labels: [now-12, now-10, now-8, now-6, now-4, now-2, now],
                                 datasets: [
                                 {
-                                data: [
-                                    Math.random() * 100,
-                                    Math.random() * 100,
-                                    Math.random() * 100,
-                                    Math.random() * 100,
-                                    Math.random() * 100,
-                                    Math.random() * 100,
-                                    Math.random() * 100,
-                                ],},],
+                                data: dataStory.temperature.map(item => parseFloat(item[1])),},],
                             }}
                             width={Dimensions.get('window').width - 16} // from react-native
                             height={220}

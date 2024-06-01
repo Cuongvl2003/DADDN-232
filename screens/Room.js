@@ -1,5 +1,5 @@
 import { View, Text, Image, Pressable, TextInput, TouchableOpacity, StyleSheet, ScrollView, Switch } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import COLORS from '../constants/colors';
@@ -9,55 +9,64 @@ import Checkbox from "expo-checkbox"
 import Button from '../components/Button';
 import { StatusBar } from 'expo-status-bar';
 import Slider from '@react-native-community/slider';
-
+import EventSource from 'react-native-sse';
+import { url } from './url';
+import axios from 'axios';
+import AuthContext from '../authContext';
+// axios.defaults.withCredentials = true;
 
 
 const Room = ({ route, navigation }) => {
-
-    const { name } = route.params;
-
+    const { roomId, roomName } = route.params;
     const [value, setValue] = useState(0);
     const [totalTaps, setTotalTaps] = useState(0);
-    const [speed, setSpeed] = useState();
-
-    const incrementValue = () => {
-        setValue(value + 1);
-        setTotalTaps(totalTaps + 1);
+    const [speed, setSpeed] = useState(0);
+    const [roomDevices, setRoomDevices] = useState([]);
+    const { token } = useContext(AuthContext);
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
     }
 
-    const decrementValue = () => {
-        setValue(value - 1);
-        setTotalTaps(totalTaps - 1);
-    }
-    
-
-    const increase = () => {
-        if (speed < 100){
-            const newSpeed = speed + 1;
-            setSpeed(newSpeed);
+    const controlDevice = async (deviceId) => {
+        let newStatus
+        const newRoomDevices = roomDevices.map((device) => {
+            if (device.id === deviceId) {
+                device.status = !device.status;
+                newStatus = device.status;
+            }
+            return device;
+        });
+        setRoomDevices(newRoomDevices);
+        try {
+            await axios.put(`${url}/api/devices/control/${deviceId}`, {
+                status: newStatus
+            }, config);
+        } catch (error) {
+            console.log(error);
         }
-    };
-    const decrease = () => {
-        if (speed > 0){
-            const newSpeed = speed - 1;
-            setSpeed(newSpeed);
-        }
-    };
-    const room3 = [
-        { name: 'Fan1', Stat: true},
-        { name: 'Fan2', Stat: false},
-        { name: 'light1', Stat: true},
-        { name: 'light2', Stat: false},
-        { name: 'light3', Stat: false},
-      ];
-    const [rooms, setRooms]=useState(room3);
-    const toggleRoomStat = (index) => {
-        setRooms((prevRooms) =>
-          prevRooms.map((room, idx) =>
-            idx === index ? { ...room, Stat: !room.Stat } : room
-          )
-        );
       };
+
+    useEffect(() => {
+        const fetchRoomById = async () => {
+            const res = await axios.get(`${url}/api/rooms/${roomId}/devices`, config);
+            setRoomDevices(res.data);
+
+        }
+        fetchRoomById();
+
+        const eventSource = new EventSource(`${url}/api/rooms/${roomId}/stream`, {...config, lineEndingCharacter: '\n'});      
+        eventSource.addEventListener("message", (event) => {
+            const data = JSON.parse(event.data);
+            setRoomDevices(data)
+        });
+
+        return () => {
+            eventSource.close();
+        }
+    }, [])
+
 
     return(
         <LinearGradient
@@ -73,47 +82,44 @@ const Room = ({ route, navigation }) => {
                         marginBottom:10
                     }}>
                         <TouchableOpacity 
-                            onPress={()=>navigation.navigate("Home")}>
-                            <Ionicons name="caret-back" size={30} color="white" 
+                            onPressIn={()=>navigation.navigate("Home")}>
+                            <Ionicons name="caret-back" size={40} color="white" 
                                 style={{
                                     marginTop: 10,
                                     marginLeft:-80,
                                 }}/>
                         </TouchableOpacity>
                         <Text style={{
-                            fontSize:20,
+                            fontSize:30,
                             marginTop:15,
                             justifyContent: "center",
-                        color:"white"}}> {name}</Text>
+                        color:"white"}}> {RoomName}</Text>
                 </View>
 
-                <View>
-                        
+                <View> 
                     </View>
                     
-                    <ScrollView>
-                    <Text>   </Text>
-
-
-                            <ScrollView
+                    
+                    <ScrollView
                             >
                             <View style={{
                                 flexDirection: 'row',
                                 flexWrap: 'wrap',
-                                justifyContent: 'space-around',
+                                // justifyContent: 'space-around',
                                 alignItems: 'center',
                                 marginVertical: 5,
+                                marginLeft: 8,
                             }}>
 
-                                {rooms.map((room, index) => (
+                                {roomDevices.map((device, index) => (
                                     <View
                                         key={index}
-                                        
+
                                         style={{
                                             backgroundColor: COLORS.white,
                                             alignItems:'center',
                                             justifyContent:'center',
-                                            width: 150,
+                                            width: 160,
                                             height: 100,
                                             borderRadius: 10,
                                             marginHorizontal: 1,
@@ -126,32 +132,29 @@ const Room = ({ route, navigation }) => {
                                             fontWeight: 'bold',
                                             fontSize: 20,
                                             marginTop: 5,
-                                            }}>{room.name}</Text>
+                                            }}>{device.name}</Text>
                                             <View style={styles.container3}>
                                                 <Text style={{
                                                     textAlign: 'center',
                                                 fontWeight: 'bold',
                                                 fontSize: 20,
-                                                
-                                                }}>{room.Stat ? 'ON:  ': 'OFF:  '}</Text>
+                                                marginRight: 20,
+
+                                                }}>{device.status ? 'ON:  ': 'OFF:  '}</Text>
 
                                                 <Switch
-                                                    trackColor={{false: '#c0bfc0', true: '#c0bfc0'}}
-                                                    thumbColor={room.Stat ? '#005ce6' : '#99989a'}
-                                                    ios_backgroundColor='#4dff88'
-                                                    value={room.Stat}
-                                                    onValueChange={() => toggleRoomStat(index)}
+                                                    trackColor={{false: '#e61700', true: '#4dff88'}}
+                                                    thumbColor={device.status ? '#99989a' : '#e61700'}
+                                                    // ios_backgroundColor='#4dff88'
+                                                    value={device.status}
+                                                    onValueChange={() => controlDevice(device.id)}
                                                 />
                                             </View>
-                                    
+
                                     </View>
                                 ))}
                             </View>
-                        </ScrollView>
-
-                    </ScrollView>
-
-            
+                        </ScrollView>            
             </SafeAreaView>
         </LinearGradient>
     )
